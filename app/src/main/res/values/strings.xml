@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TFG</string>
+    <string name="home">Inicio</string>
+    <string name="email">Email</string>
+    <string name="user">User</string>
+    <string name="password">Password</string>
+    <string name="add_user">Acept</string>
+    <string name="added_user">USER CREATED!</string>
+    <string name="post_success">Post successfully!</string>
+    <string name="post_fail">"Post failed!</string>
+</resources>
