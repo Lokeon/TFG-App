@@ -14,7 +14,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".AddUserActivity" />
+        <activity android:name=".registration.SignUp" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -24,7 +24,7 @@
             android:layout_width="51dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_add_assistant"
+            android:background="@drawable/ic_login"
             android:backgroundTint="@color/whiteSmoke" />
 
     </RelativeLayout>

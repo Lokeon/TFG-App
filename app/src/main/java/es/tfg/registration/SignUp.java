@@ -1,4 +1,4 @@
-package es.tfg;
+package es.tfg.registration;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,7 +25,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class AddUserActivity extends AppCompatActivity {
+import es.tfg.MainActivity;
+import es.tfg.R;
+
+public class SignUp extends AppCompatActivity {
     private EditText txtUser;
     private EditText txtEmail;
     private EditText txtpassword;
@@ -56,7 +59,7 @@ public class AddUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_user);
+        setContentView(R.layout.activity_sign_up);
 
         Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar);
         setSupportActionBar(bottom_toolbar);
@@ -86,14 +89,14 @@ public class AddUserActivity extends AppCompatActivity {
         btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddUserActivity.this, MainActivity.class));
+                startActivity(new Intent(SignUp.this, MainActivity.class));
             }
         });
 
         btn_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddUserActivity.this, AddUserActivity.class));
+                startActivity(new Intent(SignUp.this, SignUp.class));
             }
         });
 
@@ -183,12 +186,13 @@ public class AddUserActivity extends AppCompatActivity {
             String[] error = results.split(":");
 
             if (Integer.parseInt(error[0]) == 200) {
-                Toast.makeText(AddUserActivity.this, error[1], Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp.this, error[1], Toast.LENGTH_SHORT).show();
                 txtUser.setText("");
                 txtEmail.setText("");
                 txtpassword.setText("");
+                startActivity(new Intent(SignUp.this, MainActivity.class));
             } else {
-                Toast.makeText(AddUserActivity.this, error[1], Toast.LENGTH_LONG).show();
+                Toast.makeText(SignUp.this, error[1], Toast.LENGTH_LONG).show();
             }
 
         }
