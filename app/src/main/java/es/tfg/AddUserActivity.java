@@ -15,7 +15,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -24,8 +28,30 @@ import java.net.URL;
 public class AddUserActivity extends AppCompatActivity {
     private EditText txtUser;
     private EditText txtEmail;
+    private EditText txtpassword;
     private Button btn_accept;
+    // Check that always fields are filled before send
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            String user = txtUser.getText().toString().trim();
+            String email = txtEmail.getText().toString().trim();
+            String pass = txtpassword.getText().toString().trim();
+
+            btn_accept.setEnabled(!user.isEmpty() && !email.isEmpty() && !pass.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +71,12 @@ public class AddUserActivity extends AppCompatActivity {
 
         txtUser = (EditText) findViewById(R.id.TxtUser);
         txtEmail = (EditText) findViewById(R.id.TxtEmail);
+        txtpassword = (EditText) findViewById(R.id.TxtPassword);
         btn_accept = (Button) findViewById(R.id.BtnAddUser);
 
         txtUser.addTextChangedListener(textWatcher);
         txtEmail.addTextChangedListener(textWatcher);
+        txtpassword.addTextChangedListener(textWatcher);
 
 
         Button btn_home = (Button) findViewById(R.id.button_home);
@@ -78,33 +106,11 @@ public class AddUserActivity extends AppCompatActivity {
 
     }
 
-    // Para mirar que los inputs esten filled
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            String user = txtUser.getText().toString().trim();
-            String email = txtEmail.getText().toString().trim();
-
-            btn_accept.setEnabled(!user.isEmpty() && !email.isEmpty());
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-
     class PostUsers extends AsyncTask<Void, Void, String> {
 
         private String user;
         private String email;
+        private String pass;
 
         @Override
         protected void onPreExecute() {
@@ -112,6 +118,20 @@ public class AddUserActivity extends AppCompatActivity {
 
             user = txtUser.getText().toString();
             email = txtEmail.getText().toString();
+            pass = txtpassword.getText().toString();
+        }
+
+        protected String getErrorFromServer(InputStream error) throws IOException {
+
+            StringBuilder builder = new StringBuilder();
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(error))) {
+                String line;
+                while ((line = in.readLine()) != null) {
+                    builder.append(line);
+                }
+            }
+
+            return builder.toString();
         }
 
         @Override
@@ -123,10 +143,11 @@ public class AddUserActivity extends AppCompatActivity {
             try {
                 JSONObject dataToSend = new JSONObject();
 
-                dataToSend.put("user", user);
+                dataToSend.put("username", user);
                 dataToSend.put("email", email);
+                dataToSend.put("password", pass);
 
-                URL url = new URL(getResources().getString(R.string.ip_user));
+                URL url = new URL(getResources().getString(R.string.ip_register));
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(10000);
                 urlConnection.setConnectTimeout(10000);
@@ -141,9 +162,10 @@ public class AddUserActivity extends AppCompatActivity {
                 bufferedWriter.flush();
 
                 if (urlConnection.getResponseCode() == 200) {
-                    text = getResources().getString(R.string.post_success);
+                    text = urlConnection.getResponseCode() + ":" + getResources().getString(R.string.added_user);
                 } else {
-                    text = getResources().getString(R.string.post_fail);
+                    text = urlConnection.getResponseCode() + ":" + getErrorFromServer(urlConnection.getErrorStream());
+
                 }
 
             } catch (Exception e) {
@@ -158,9 +180,17 @@ public class AddUserActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
-            Toast.makeText(AddUserActivity.this, R.string.added_user, Toast.LENGTH_SHORT).show();
-            txtUser.setText("");
-            txtEmail.setText("");
+            String[] error = results.split(":");
+
+            if (Integer.parseInt(error[0]) == 200) {
+                Toast.makeText(AddUserActivity.this, error[1], Toast.LENGTH_SHORT).show();
+                txtUser.setText("");
+                txtEmail.setText("");
+                txtpassword.setText("");
+            } else {
+                Toast.makeText(AddUserActivity.this, error[1], Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
