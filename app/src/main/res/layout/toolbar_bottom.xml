@@ -20,7 +20,7 @@
             android:backgroundTint="@color/whiteSmoke" />
 
         <Button
-            android:id="@+id/button_date"
+            android:id="@+id/button_signin"
             android:layout_width="51dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"

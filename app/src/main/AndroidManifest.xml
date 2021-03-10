@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".registration.SignIn" />
         <activity android:name=".registration.SignUp" />
         <activity android:name=".MainActivity">
             <intent-filter>

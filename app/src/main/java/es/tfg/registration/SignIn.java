@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +29,11 @@ import java.net.URL;
 import es.tfg.MainActivity;
 import es.tfg.R;
 
-public class SignUp extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
+
     private EditText txtUser;
-    private EditText txtEmail;
     private EditText txtpassword;
+    private TextView textSignup;
     private Button btn_accept;
     // Check that always fields are filled before send
     private TextWatcher textWatcher = new TextWatcher() {
@@ -44,10 +46,9 @@ public class SignUp extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             String user = txtUser.getText().toString().trim();
-            String email = txtEmail.getText().toString().trim();
             String pass = txtpassword.getText().toString().trim();
 
-            btn_accept.setEnabled(!user.isEmpty() && !email.isEmpty() && !pass.isEmpty());
+            btn_accept.setEnabled(!user.isEmpty() && !pass.isEmpty());
         }
 
         @Override
@@ -59,22 +60,52 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_in);
+
+        Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar);
+        setSupportActionBar(bottom_toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        bottom_toolbar.setTitle("");
+        bottom_toolbar.setSubtitle("");
 
         Toolbar top_toolbar = (Toolbar) findViewById(R.id.top_toolbar);
         setSupportActionBar(top_toolbar);
-        getSupportActionBar().setTitle(R.string.sign_up);
+        getSupportActionBar().setTitle(R.string.sign_in);
 
 
         txtUser = (EditText) findViewById(R.id.TxtUser);
-        txtEmail = (EditText) findViewById(R.id.TxtEmail);
         txtpassword = (EditText) findViewById(R.id.TxtPassword);
-        btn_accept = (Button) findViewById(R.id.BtnSignUp);
+        textSignup = (TextView) findViewById(R.id.TxtSignUp);
+        btn_accept = (Button) findViewById(R.id.BtnSignIn);
 
         txtUser.addTextChangedListener(textWatcher);
-        txtEmail.addTextChangedListener(textWatcher);
         txtpassword.addTextChangedListener(textWatcher);
 
+
+        Button btn_home = (Button) findViewById(R.id.button_home);
+        Button btn_signin = (Button) findViewById(R.id.button_signin);
+
+
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignIn.this, MainActivity.class));
+            }
+        });
+
+        btn_signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignIn.this, SignUp.class));
+            }
+        });
+
+        textSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignIn.this, SignUp.class));
+            }
+        });
 
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +127,6 @@ public class SignUp extends AppCompatActivity {
             super.onPreExecute();
 
             user = txtUser.getText().toString();
-            email = txtEmail.getText().toString();
             pass = txtpassword.getText().toString();
         }
 
@@ -123,10 +153,9 @@ public class SignUp extends AppCompatActivity {
                 JSONObject dataToSend = new JSONObject();
 
                 dataToSend.put("username", user);
-                dataToSend.put("email", email);
                 dataToSend.put("password", pass);
 
-                URL url = new URL(getResources().getString(R.string.ip_register));
+                URL url = new URL(getResources().getString(R.string.ip_login));
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(10000);
                 urlConnection.setConnectTimeout(10000);
@@ -162,13 +191,12 @@ public class SignUp extends AppCompatActivity {
             String[] error = results.split(":");
 
             if (Integer.parseInt(error[0]) == 200) {
-                Toast.makeText(SignUp.this, error[1], Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignIn.this, error[1], Toast.LENGTH_SHORT).show();
                 txtUser.setText("");
-                txtEmail.setText("");
                 txtpassword.setText("");
-                startActivity(new Intent(SignUp.this, MainActivity.class));
+                startActivity(new Intent(SignIn.this, MainActivity.class));
             } else {
-                Toast.makeText(SignUp.this, error[1], Toast.LENGTH_LONG).show();
+                Toast.makeText(SignIn.this, error[1], Toast.LENGTH_LONG).show();
             }
 
         }
