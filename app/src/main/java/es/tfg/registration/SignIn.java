@@ -1,6 +1,7 @@
 package es.tfg.registration;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +29,7 @@ import java.net.URL;
 
 import es.tfg.MainActivity;
 import es.tfg.R;
+import es.tfg.user.UserActivity;
 
 public class SignIn extends AppCompatActivity {
 
@@ -80,6 +82,7 @@ public class SignIn extends AppCompatActivity {
 
         txtUser.addTextChangedListener(textWatcher);
         txtpassword.addTextChangedListener(textWatcher);
+        textSignup.setPaintFlags(textSignup.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 
         Button btn_home = (Button) findViewById(R.id.button_home);
@@ -170,7 +173,7 @@ public class SignIn extends AppCompatActivity {
                 bufferedWriter.flush();
 
                 if (urlConnection.getResponseCode() == 200) {
-                    text = urlConnection.getResponseCode() + ":" + getResources().getString(R.string.added_user);
+                    text = urlConnection.getResponseCode() + ":" + getResources().getString(R.string.login);
                 } else {
                     text = urlConnection.getResponseCode() + ":" + getErrorFromServer(urlConnection.getErrorStream());
 
@@ -194,7 +197,7 @@ public class SignIn extends AppCompatActivity {
                 Toast.makeText(SignIn.this, error[1], Toast.LENGTH_SHORT).show();
                 txtUser.setText("");
                 txtpassword.setText("");
-                startActivity(new Intent(SignIn.this, MainActivity.class));
+                startActivity(new Intent(SignIn.this, UserActivity.class));
             } else {
                 Toast.makeText(SignIn.this, error[1], Toast.LENGTH_LONG).show();
             }

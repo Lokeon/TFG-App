@@ -64,6 +64,14 @@ public class SignUp extends AppCompatActivity {
         Toolbar top_toolbar = (Toolbar) findViewById(R.id.top_toolbar);
         setSupportActionBar(top_toolbar);
         getSupportActionBar().setTitle(R.string.sign_up);
+        top_toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+
+        top_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUp.this, SignIn.class));
+            }
+        });
 
 
         txtUser = (EditText) findViewById(R.id.TxtUser);

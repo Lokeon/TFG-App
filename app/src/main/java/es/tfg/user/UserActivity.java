@@ -1,4 +1,4 @@
-package es.tfg;
+package es.tfg.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,18 +8,17 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import es.tfg.registration.SignIn;
+import es.tfg.R;
 
 
-
-public class MainActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user);
 
-        Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar);
+        Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar_user);
         setSupportActionBar(bottom_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         bottom_toolbar.setTitle("");
@@ -30,24 +29,15 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.home);
 
         Button btn_home = (Button) findViewById(R.id.button_home);
-        Button btn_signin = (Button) findViewById(R.id.button_signin);
-
 
         btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                startActivity(new Intent(UserActivity.this, UserActivity.class));
             }
         });
 
-        btn_signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignIn.class));
-            }
-        });
     }
-
 }
 
 
