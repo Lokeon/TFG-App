@@ -8,21 +8,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
-            layout="@layout/toolbar_top_user"
-            android:id="@+id/top_toolbar_user" />
+            android:id="@+id/top_toolbar_user"
+            layout="@layout/toolbar_top_user" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@android:color/darker_gray">
-
-        <include layout="@layout/menu_nav_drawer" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,5 +25,13 @@
             layout="@layout/toolbar_bottom_user" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/darker_gray">
+
+        <include layout="@layout/menu_nav_drawer" />
+    </RelativeLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

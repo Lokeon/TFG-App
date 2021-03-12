@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,15 +33,13 @@ public class UserActivity extends AppCompatActivity {
         bottom_toolbar.setTitle("");
         bottom_toolbar.setSubtitle("");
 
-        Toolbar top_toolbar = (Toolbar) findViewById(R.id.top_toolbar_user);
-        setSupportActionBar(top_toolbar);
-        getSupportActionBar().setTitle(R.string.home);
+        TextView textView = (TextView) findViewById(R.id.title_toolbar_user);
+        textView.setText(R.string.home);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_user);
     }
 
     public void goHome(View view) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         startActivity(new Intent(UserActivity.this, UserActivity.class));
     }
 
@@ -57,8 +56,14 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.END);
+        }
+
+    }
+
+    public void clickHome(View view) {
+        recreate();
     }
 
     public void goLogout(View view) {
@@ -83,6 +88,7 @@ public class UserActivity extends AppCompatActivity {
         });
         builder.show();
     }
+
 }
 
 

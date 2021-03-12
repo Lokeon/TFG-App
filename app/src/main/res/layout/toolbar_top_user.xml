@@ -14,5 +14,20 @@
         android:onClick="openMenu"
         android:src="@drawable/ic_menu" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/title_toolbar_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:textAlignment="textStart"
+            android:textColor="@color/whiteSmoke" />
+    </RelativeLayout>
+
 </androidx.appcompat.widget.Toolbar>
 
