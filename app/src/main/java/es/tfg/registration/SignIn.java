@@ -84,32 +84,6 @@ public class SignIn extends AppCompatActivity {
         txtpassword.addTextChangedListener(textWatcher);
         textSignup.setPaintFlags(textSignup.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-
-        Button btn_home = (Button) findViewById(R.id.button_home);
-        Button btn_signin = (Button) findViewById(R.id.button_signin);
-
-
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignIn.this, MainActivity.class));
-            }
-        });
-
-        btn_signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignIn.this, SignUp.class));
-            }
-        });
-
-        textSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignIn.this, SignUp.class));
-            }
-        });
-
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +91,18 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void goSignUp(View view) {
+        startActivity(new Intent(SignIn.this, SignUp.class));
+    }
+
+    public void goHome(View view) {
+        startActivity(new Intent(SignIn.this, MainActivity.class));
+    }
+
+    public void goSignIn(View view) {
+        startActivity(new Intent(SignIn.this, SignIn.class));
     }
 
     class PostUsers extends AsyncTask<Void, Void, String> {

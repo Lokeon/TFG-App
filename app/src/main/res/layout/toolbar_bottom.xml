@@ -12,16 +12,15 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_home"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:background="@drawable/ic_home"
             android:backgroundTint="@color/whiteSmoke"
-            android:layout_marginLeft="25dp" />
+            android:layout_marginLeft="25dp"
+            android:onClick="goHome" />
 
         <Button
-            android:id="@+id/button_games"
             android:layout_width="51dp"
             android:layout_height="match_parent"
             android:background="@drawable/ic_games"
@@ -29,13 +28,13 @@
             android:layout_centerInParent="true" />
 
         <Button
-            android:id="@+id/button_signin"
             android:layout_width="51dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:background="@drawable/ic_login"
             android:backgroundTint="@color/whiteSmoke"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="25dp"
+            android:onClick="goSignIn" />
 
 
     </RelativeLayout>

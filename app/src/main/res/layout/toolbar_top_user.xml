@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/top_toolbar_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:layout_gravity="start|top"
+    android:background="@color/gray"
+    app:titleTextColor="@color/whiteSmoke">
+
+    <ImageView
+        android:layout_width="68dp"
+        android:layout_height="match_parent"
+        android:onClick="openMenu"
+        android:src="@drawable/ic_menu" />
+
+</androidx.appcompat.widget.Toolbar>
+

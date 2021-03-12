@@ -17,7 +17,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:background="@drawable/ic_home"
-            android:backgroundTint="@color/whiteSmoke" />
+            android:backgroundTint="@color/whiteSmoke"
+            android:onClick="goHome" />
 
 
         <Button

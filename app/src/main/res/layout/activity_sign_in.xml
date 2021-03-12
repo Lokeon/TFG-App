@@ -49,6 +49,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="@string/texttoSignUp"
                 android:clickable="true"
+                android:onClick="goSignUp"
                 android:textStyle="bold" />
 
             <Button
