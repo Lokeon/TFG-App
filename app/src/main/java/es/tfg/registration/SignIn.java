@@ -110,6 +110,7 @@ public class SignIn extends AppCompatActivity {
         private String user;
         private String email;
         private String pass;
+        private HttpURLConnection urlConnection = null;
 
         @Override
         protected void onPreExecute() {
@@ -136,8 +137,6 @@ public class SignIn extends AppCompatActivity {
         protected String doInBackground(Void... strings) {
             String text;
             BufferedWriter bufferedWriter;
-            HttpURLConnection urlConnection = null;
-
             try {
                 JSONObject dataToSend = new JSONObject();
 
@@ -160,9 +159,9 @@ public class SignIn extends AppCompatActivity {
 
                 if (urlConnection.getResponseCode() == 200) {
                     text = urlConnection.getResponseCode() + ":" + getResources().getString(R.string.login);
+
                 } else {
                     text = urlConnection.getResponseCode() + ":" + getErrorFromServer(urlConnection.getErrorStream());
-
                 }
 
             } catch (Exception e) {
@@ -171,6 +170,7 @@ public class SignIn extends AppCompatActivity {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
+
             return text;
         }
 
@@ -178,12 +178,30 @@ public class SignIn extends AppCompatActivity {
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
             String[] error = results.split(":");
+            StringBuilder result = new StringBuilder();
+            String id = null;
+            Bundle bundle = new Bundle();
+
+            //Take Id from server response
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                String line = null;
+                while ((line = in.readLine()) != null) {
+                    result.append(line);
+                }
+                id = result.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            bundle.putString("id", id);
 
             if (Integer.parseInt(error[0]) == 200) {
                 Toast.makeText(SignIn.this, error[1], Toast.LENGTH_SHORT).show();
                 txtUser.setText("");
                 txtpassword.setText("");
-                startActivity(new Intent(SignIn.this, UserActivity.class));
+                startActivity(new Intent(SignIn.this, UserActivity.class).putExtras(bundle));
             } else {
                 Toast.makeText(SignIn.this, error[1], Toast.LENGTH_LONG).show();
             }

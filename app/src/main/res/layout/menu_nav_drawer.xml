@@ -11,9 +11,9 @@
         android:src="@drawable/ic_user_avatar" />
 
     <TextView
+        android:id="@+id/top_toolbar_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pepe"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,13 +14,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+
 import es.tfg.R;
 import es.tfg.registration.SignIn;
 
 
 public class UserActivity extends AppCompatActivity {
 
-    DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
+    private TextView userText;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +45,14 @@ public class UserActivity extends AppCompatActivity {
         bottom_toolbar.setTitle("");
         bottom_toolbar.setSubtitle("");
 
+        bundle = getIntent().getExtras();
+
         TextView textView = (TextView) findViewById(R.id.title_toolbar_user);
         textView.setText(R.string.home);
+        userText = (TextView) findViewById(R.id.top_toolbar_username);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_user);
+
     }
 
     public void goHome(View view) {
@@ -45,6 +61,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void openMenu(View view) {
         openDrawer(drawerLayout);
+        new GetUsername().execute(bundle.getString("id").replace("\"", ""));
     }
 
     public static void openDrawer(DrawerLayout drawerLayout) {
@@ -87,6 +104,56 @@ public class UserActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    class GetUsername extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String text;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                URL url = new URL(getResources().getString(R.string.ip_username) + "/" + strings[0]);
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                text = new Scanner(inputStream).useDelimiter("\\A").next();
+
+            } catch (Exception e) {
+                return e.toString();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+
+            System.out.println("AAAAAAAAAAAAAAAAA" + results);
+
+            if (results != null) {
+                JSONArray jsonArray;
+                try {
+                    jsonArray = new JSONArray(results);
+                    JSONObject jsonobject = jsonArray.getJSONObject(0);
+
+                    userText.setText(jsonobject.getString("username"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }
