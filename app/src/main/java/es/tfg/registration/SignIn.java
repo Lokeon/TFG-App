@@ -179,7 +179,7 @@ public class SignIn extends AppCompatActivity {
             super.onPostExecute(results);
             String[] error = results.split(":");
             StringBuilder result = new StringBuilder();
-            String id = null;
+            String[] info = new String[2];
             Bundle bundle = new Bundle();
 
             //Take Id from server response
@@ -189,13 +189,14 @@ public class SignIn extends AppCompatActivity {
                 while ((line = in.readLine()) != null) {
                     result.append(line);
                 }
-                id = result.toString();
+                info = result.toString().split(" ");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            bundle.putString("id", id);
+            bundle.putString("token", info[0]);
+            bundle.putString("id", info[1]);
 
             if (Integer.parseInt(error[0]) == 200) {
                 Toast.makeText(SignIn.this, error[1], Toast.LENGTH_SHORT).show();

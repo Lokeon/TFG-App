@@ -14,7 +14,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,9 +58,20 @@ public class UserActivity extends AppCompatActivity {
         startActivity(new Intent(UserActivity.this, UserActivity.class));
     }
 
+    private static class UserInfo {
+        String id;
+        String token;
+
+        UserInfo(String token, String id) {
+            this.id = id;
+            this.token = token;
+        }
+    }
+
     public void openMenu(View view) {
         openDrawer(drawerLayout);
-        new GetUsername().execute(bundle.getString("id").replace("\"", ""));
+        UserInfo userInfo = new UserInfo(bundle.getString("token").replace("\"", ""), bundle.getString("id").replace("\"", ""));
+        new GetUsername().execute(userInfo);
     }
 
     public static void openDrawer(DrawerLayout drawerLayout) {
@@ -77,10 +87,6 @@ public class UserActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.END);
         }
 
-    }
-
-    public void clickHome(View view) {
-        recreate();
     }
 
     public void goLogout(View view) {
@@ -106,21 +112,22 @@ public class UserActivity extends AppCompatActivity {
         builder.show();
     }
 
-    class GetUsername extends AsyncTask<String, Void, String> {
+    class GetUsername extends AsyncTask<UserInfo, Void, String> {
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(UserInfo... strings) {
             String text;
             HttpURLConnection urlConnection = null;
 
             try {
-                URL url = new URL(getResources().getString(R.string.ip_username) + "/" + strings[0]);
+                URL url = new URL(getResources().getString(R.string.ip_username) + "/" + strings[0].id);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(10000);
                 urlConnection.setConnectTimeout(10000);
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("auth-token", strings[0].token);
                 urlConnection.connect();
 
                 InputStream inputStream = urlConnection.getInputStream();
@@ -139,13 +146,9 @@ public class UserActivity extends AppCompatActivity {
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
 
-            System.out.println("AAAAAAAAAAAAAAAAA" + results);
-
             if (results != null) {
-                JSONArray jsonArray;
                 try {
-                    jsonArray = new JSONArray(results);
-                    JSONObject jsonobject = jsonArray.getJSONObject(0);
+                    JSONObject jsonobject = new JSONObject(results);
 
                     userText.setText(jsonobject.getString("username"));
 
