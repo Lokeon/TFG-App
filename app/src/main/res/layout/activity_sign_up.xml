@@ -50,6 +50,14 @@
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
+            <EditText
+                android:id="@+id/TxtCPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/confimPassword"
+                android:inputType="textPassword" />
+
             <Button
                 android:id="@+id/BtnSignUp"
                 android:layout_width="wrap_content"

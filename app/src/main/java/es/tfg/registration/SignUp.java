@@ -25,13 +25,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import es.tfg.MainActivity;
 import es.tfg.R;
 
 public class SignUp extends AppCompatActivity {
     private EditText txtUser;
     private EditText txtEmail;
     private EditText txtpassword;
+    private EditText txtcpassword;
     private Button btn_accept;
     // Check that always fields are filled before send
     private TextWatcher textWatcher = new TextWatcher() {
@@ -46,8 +46,10 @@ public class SignUp extends AppCompatActivity {
             String user = txtUser.getText().toString().trim();
             String email = txtEmail.getText().toString().trim();
             String pass = txtpassword.getText().toString().trim();
+            String cpass = txtcpassword.getText().toString().trim();
 
-            btn_accept.setEnabled(!user.isEmpty() && !email.isEmpty() && !pass.isEmpty());
+            btn_accept.setEnabled(!user.isEmpty() && !email.isEmpty() && !pass.isEmpty() &&
+                    !cpass.isEmpty());
         }
 
         @Override
@@ -77,24 +79,28 @@ public class SignUp extends AppCompatActivity {
         txtUser = (EditText) findViewById(R.id.TxtUser);
         txtEmail = (EditText) findViewById(R.id.TxtEmail);
         txtpassword = (EditText) findViewById(R.id.TxtPassword);
+        txtcpassword = (EditText) findViewById(R.id.TxtCPassword);
         btn_accept = (Button) findViewById(R.id.BtnSignUp);
 
         txtUser.addTextChangedListener(textWatcher);
         txtEmail.addTextChangedListener(textWatcher);
         txtpassword.addTextChangedListener(textWatcher);
-
+        txtcpassword.addTextChangedListener(textWatcher);
 
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PostUsers().execute();
+                if (!txtpassword.getText().toString().equals(txtcpassword.getText().toString())) {
+                    Toast.makeText(SignUp.this, R.string.passDontMatch, Toast.LENGTH_LONG).show();
+                } else {
+                    new PostUsers().execute();
+                }
             }
         });
 
     }
 
     class PostUsers extends AsyncTask<Void, Void, String> {
-
         private String user;
         private String email;
         private String pass;
@@ -136,8 +142,8 @@ public class SignUp extends AppCompatActivity {
 
                 URL url = new URL(getResources().getString(R.string.ip_register));
                 urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setReadTimeout(10000);
-                urlConnection.setConnectTimeout(10000);
+                urlConnection.setReadTimeout(30000);
+                urlConnection.setConnectTimeout(30000);
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -174,7 +180,7 @@ public class SignUp extends AppCompatActivity {
                 txtUser.setText("");
                 txtEmail.setText("");
                 txtpassword.setText("");
-                startActivity(new Intent(SignUp.this, MainActivity.class));
+                startActivity(new Intent(SignUp.this, SignIn.class));
             } else {
                 Toast.makeText(SignUp.this, error[1], Toast.LENGTH_LONG).show();
             }

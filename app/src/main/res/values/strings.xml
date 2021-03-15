@@ -4,6 +4,8 @@
     <string name="email">Email</string>
     <string name="user">User</string>
     <string name="password">Password</string>
+    <string name="confimPassword">Confirm password</string>
+    <string name="passDontMatch">Password doesn\'t match!!</string>
     <string name="emailP">Email:</string>
     <string name="userP">User:</string>
     <string name="passwordP">Password</string>
