@@ -20,16 +20,19 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import es.tfg.R;
 import es.tfg.registration.SignIn;
 
-
-public class UserActivity extends AppCompatActivity {
-
+public class Profile extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TextView userText;
+    private TextView userNText;
+    private TextView emailText;
+    private TextView dateText;
     private Bundle bundle;
     private Bundle bundleSend;
     private String token;
@@ -67,11 +70,10 @@ public class UserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_profile);
 
-        Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar_user);
+        Toolbar bottom_toolbar = findViewById(R.id.bottom_toolbar_user);
         setSupportActionBar(bottom_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         bottom_toolbar.setTitle("");
@@ -79,11 +81,14 @@ public class UserActivity extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
 
-        TextView textView = (TextView) findViewById(R.id.title_toolbar_user);
-        textView.setText(R.string.home);
-        userText = (TextView) findViewById(R.id.top_toolbar_username);
+        TextView textView = findViewById(R.id.title_toolbar_user);
+        textView.setText(R.string.profile);
+        userText = findViewById(R.id.top_toolbar_username);
+        userNText = findViewById(R.id.TxtUser);
+        emailText = findViewById(R.id.TxtEmail);
+        dateText = findViewById(R.id.TxtDate);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_user);
+        drawerLayout = findViewById(R.id.drawer_profile);
 
         token = bundle.getString("token").replace("\"", "");
         id = bundle.getString("id").replace("\"", "");
@@ -92,15 +97,15 @@ public class UserActivity extends AppCompatActivity {
         bundleSend.putString("token", token);
         bundleSend.putString("id", id);
 
-        new GetUsername().execute(new UserInfo(token, id));
+        new GetUser().execute(new UserInfo(token, id));
     }
 
     public void goHome(View view) {
-        startActivity(new Intent(UserActivity.this, UserActivity.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, UserActivity.class).putExtras(bundleSend));
     }
 
     public void goProfile(View view) {
-        startActivity(new Intent(UserActivity.this, Profile.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, Profile.class).putExtras(bundleSend));
     }
 
     public void openMenu(View view) {
@@ -115,6 +120,23 @@ public class UserActivity extends AppCompatActivity {
         logout(this);
     }
 
+    public String formatDate(String date) {
+        String dateFormatted = null;
+
+        try {
+            String[] dateN = date.split("T");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateD = dateFormat.parse(dateN[0]);
+
+            dateFormat.applyPattern("MM-dd-yyyy");
+            dateFormatted = dateFormat.format(dateD);
+
+        } catch (Exception e) {
+        }
+
+        return dateFormatted;
+    }
+
     private static class UserInfo {
         String id;
         String token;
@@ -125,7 +147,7 @@ public class UserActivity extends AppCompatActivity {
         }
     }
 
-    class GetUsername extends AsyncTask<UserInfo, Void, String> {
+    class GetUser extends AsyncTask<UserInfo, Void, String> {
 
         @Override
         protected String doInBackground(UserInfo... strings) {
@@ -164,6 +186,9 @@ public class UserActivity extends AppCompatActivity {
                     JSONObject jsonobject = new JSONObject(results);
 
                     userText.setText(jsonobject.getString("username"));
+                    userNText.setText(jsonobject.getString("username"));
+                    emailText.setText(jsonobject.getString("email"));
+                    dateText.setText(formatDate(jsonobject.getString("date")));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -171,7 +196,4 @@ public class UserActivity extends AppCompatActivity {
             }
         }
     }
-
 }
-
-

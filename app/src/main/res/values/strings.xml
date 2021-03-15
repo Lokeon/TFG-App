@@ -4,10 +4,15 @@
     <string name="email">Email</string>
     <string name="user">User</string>
     <string name="password">Password</string>
+    <string name="emailP">Email:</string>
+    <string name="userP">User:</string>
+    <string name="passwordP">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="added_user">USER CREATED!</string>
     <string name="texttoSignUp">Make an Account</string>
+    <string name="createdat">Created at:</string>
     <string name="login">Logged in!</string>
+    <string name="profile">Profile</string>
 
 </resources>
