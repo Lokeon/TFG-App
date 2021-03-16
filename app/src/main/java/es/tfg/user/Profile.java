@@ -155,7 +155,7 @@ public class Profile extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
 
             try {
-                URL url = new URL(getResources().getString(R.string.ip_username) + "/" + strings[0].id);
+                URL url = new URL(getResources().getString(R.string.ip_username));
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(10000);

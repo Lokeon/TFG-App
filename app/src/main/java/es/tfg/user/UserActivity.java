@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
 import es.tfg.registration.SignIn;
 
@@ -34,6 +37,7 @@ public class UserActivity extends AppCompatActivity {
     private Bundle bundleSend;
     private String token;
     private String id;
+    private CircleImageView circleImageView;
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -71,6 +75,7 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+
         Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar_user);
         setSupportActionBar(bottom_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -82,6 +87,7 @@ public class UserActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.title_toolbar_user);
         textView.setText(R.string.home);
         userText = (TextView) findViewById(R.id.top_toolbar_username);
+        circleImageView = (CircleImageView) findViewById(R.id.avatar_img_user);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_user);
 
@@ -91,6 +97,7 @@ public class UserActivity extends AppCompatActivity {
         bundleSend = new Bundle();
         bundleSend.putString("token", token);
         bundleSend.putString("id", id);
+
 
         new GetUsername().execute(new UserInfo(token, id));
     }
@@ -133,7 +140,7 @@ public class UserActivity extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
 
             try {
-                URL url = new URL(getResources().getString(R.string.ip_username) + "/" + strings[0].id);
+                URL url = new URL(getResources().getString(R.string.ip_username));
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(10000);
@@ -164,6 +171,8 @@ public class UserActivity extends AppCompatActivity {
                     JSONObject jsonobject = new JSONObject(results);
 
                     userText.setText(jsonobject.getString("username"));
+                    byte[] decodedString = Base64.decode(jsonobject.getString("avatar"), Base64.DEFAULT);
+                    circleImageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
