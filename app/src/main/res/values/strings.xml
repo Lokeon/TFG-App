@@ -16,4 +16,6 @@
     <string name="createdat">Created at:</string>
     <string name="login">Logged in!</string>
     <string name="profile">Profile</string>
+    <string name="changePassword">Change Password</string>
+    <string name="passchanged">PASSWORD CHANGED!</string>
 </resources>

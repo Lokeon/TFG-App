@@ -96,6 +96,26 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="250dp">
+
+                <TextView
+                    android:id="@+id/TxtCPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/changePassword"
+                    android:clickable="true"
+                    android:textSize="20sp"
+                    android:onClick="goChangePassword"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

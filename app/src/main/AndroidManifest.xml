@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".user.Profile"></activity>
+        <activity android:name=".user.ChangePassword"></activity>
+        <activity android:name=".user.Profile" />
         <activity android:name=".registration.SignIn" />
         <activity android:name=".registration.SignUp" />
         <activity android:name=".user.UserActivity" />

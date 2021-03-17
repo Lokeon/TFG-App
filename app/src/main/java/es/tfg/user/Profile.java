@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
 import es.tfg.registration.SignIn;
 
@@ -33,10 +37,12 @@ public class Profile extends AppCompatActivity {
     private TextView userNText;
     private TextView emailText;
     private TextView dateText;
+    private TextView cPassword;
     private Bundle bundle;
     private Bundle bundleSend;
     private String token;
     private String id;
+    private CircleImageView circleImageView;
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -79,17 +85,18 @@ public class Profile extends AppCompatActivity {
         bottom_toolbar.setTitle("");
         bottom_toolbar.setSubtitle("");
 
-        bundle = getIntent().getExtras();
-
         TextView textView = findViewById(R.id.title_toolbar_user);
         textView.setText(R.string.profile);
         userText = findViewById(R.id.top_toolbar_username);
         userNText = findViewById(R.id.TxtUser);
         emailText = findViewById(R.id.TxtEmail);
         dateText = findViewById(R.id.TxtDate);
-
+        cPassword = findViewById(R.id.TxtCPassword);
         drawerLayout = findViewById(R.id.drawer_profile);
+        circleImageView = findViewById(R.id.avatar_img_user);
 
+        cPassword.setPaintFlags(cPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        bundle = getIntent().getExtras();
         token = bundle.getString("token").replace("\"", "");
         id = bundle.getString("id").replace("\"", "");
 
@@ -106,6 +113,10 @@ public class Profile extends AppCompatActivity {
 
     public void goProfile(View view) {
         startActivity(new Intent(Profile.this, Profile.class).putExtras(bundleSend));
+    }
+
+    public void goChangePassword(View view) {
+        startActivity(new Intent(Profile.this, ChangePassword.class).putExtras(bundleSend));
     }
 
     public void openMenu(View view) {
@@ -189,6 +200,8 @@ public class Profile extends AppCompatActivity {
                     userNText.setText(jsonobject.getString("username"));
                     emailText.setText(jsonobject.getString("email"));
                     dateText.setText(formatDate(jsonobject.getString("date")));
+                    byte[] decodedString = Base64.decode(jsonobject.getString("avatar"), Base64.DEFAULT);
+                    circleImageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
