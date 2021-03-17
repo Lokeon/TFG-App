@@ -75,14 +75,11 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-
         Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar_user);
         setSupportActionBar(bottom_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         bottom_toolbar.setTitle("");
         bottom_toolbar.setSubtitle("");
-
-        bundle = getIntent().getExtras();
 
         TextView textView = (TextView) findViewById(R.id.title_toolbar_user);
         textView.setText(R.string.home);
@@ -91,9 +88,9 @@ public class UserActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_user);
 
+        bundle = getIntent().getExtras();
         token = bundle.getString("token").replace("\"", "");
         id = bundle.getString("id").replace("\"", "");
-
         bundleSend = new Bundle();
         bundleSend.putString("token", token);
         bundleSend.putString("id", id);

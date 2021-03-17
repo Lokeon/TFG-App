@@ -18,4 +18,6 @@
     <string name="profile">Profile</string>
     <string name="changePassword">Change Password</string>
     <string name="passchanged">PASSWORD CHANGED!</string>
+    <string name="cavatar"> Change Avatar</string>
+    <string name="chavatar"> AVATAR CHANGED!!</string>
 </resources>
