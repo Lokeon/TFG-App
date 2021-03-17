@@ -28,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -316,7 +315,6 @@ public class Profile extends AppCompatActivity {
             String text;
             HttpURLConnection urlConnection = null;
             DataOutputStream dos = null;
-            DataInputStream inStream = null;
             String fileName = strings[0].avatar;
             String lineEnd = "\r\n";
             String twoHyphens = "--";
