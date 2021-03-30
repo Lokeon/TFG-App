@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import es.tfg.game.Game;
 import es.tfg.registration.SignIn;
 
 
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void goSignIn(View view) {
         startActivity(new Intent(MainActivity.this, SignIn.class));
+    }
+
+    public void goGame(View view) {
+        startActivity(new Intent(MainActivity.this, Game.class));
     }
 
 }

@@ -29,6 +29,7 @@ import java.net.URL;
 
 import es.tfg.MainActivity;
 import es.tfg.R;
+import es.tfg.game.Game;
 import es.tfg.user.UserActivity;
 
 public class SignIn extends AppCompatActivity {
@@ -104,6 +105,11 @@ public class SignIn extends AppCompatActivity {
     public void goSignIn(View view) {
         startActivity(new Intent(SignIn.this, SignIn.class));
     }
+
+    public void goGame(View view) {
+        startActivity(new Intent(SignIn.this, Game.class));
+    }
+
 
     class PostUsers extends AsyncTask<Void, Void, String> {
 

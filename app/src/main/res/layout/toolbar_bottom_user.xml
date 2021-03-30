@@ -28,7 +28,8 @@
             android:layout_marginStart="55dp"
             android:layout_toEndOf="@id/button_home"
             android:background="@drawable/ic_games"
-            android:backgroundTint="@color/whiteSmoke" />
+            android:backgroundTint="@color/whiteSmoke"
+            android:onClick="goGame" />
 
         <Button
             android:id="@+id/button_list"

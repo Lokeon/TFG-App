@@ -44,6 +44,7 @@ import java.util.Scanner;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
+import es.tfg.game.GameUser;
 import es.tfg.registration.SignIn;
 
 public class Profile extends AppCompatActivity {
@@ -69,7 +70,6 @@ public class Profile extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.END);
         }
-
     }
 
     public static void logout(final Activity activity) {
@@ -161,6 +161,10 @@ public class Profile extends AppCompatActivity {
 
     public void goProfile(View view) {
         startActivity(new Intent(Profile.this, Profile.class).putExtras(bundleSend));
+    }
+
+    public void goGame(View view) {
+        startActivity(new Intent(Profile.this, GameUser.class).putExtras(bundleSend));
     }
 
     public void goChangePassword(View view) {

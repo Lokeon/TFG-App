@@ -20,4 +20,5 @@
     <string name="passchanged">PASSWORD CHANGED!</string>
     <string name="cavatar"> Change Avatar</string>
     <string name="chavatar"> AVATAR CHANGED!!</string>
+    <string name="game">Games</string>
 </resources>
