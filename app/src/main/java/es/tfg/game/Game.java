@@ -46,8 +46,7 @@ public class Game extends AppCompatActivity {
         Toolbar top_toolbar = (Toolbar) findViewById(R.id.top_toolbar);
         setSupportActionBar(top_toolbar);
         getSupportActionBar().setTitle(R.string.game);
-        rvGames = (RecyclerView) findViewById(R.id.rvGames);
-        rvGames.setLayoutManager(new GridLayoutManager(Game.this, 3));
+
 
         new GetAllGames().execute();
 
@@ -109,6 +108,8 @@ public class Game extends AppCompatActivity {
                                 jsonobject.getString("name")));
                     }
 
+                    rvGames = (RecyclerView) findViewById(R.id.rvGames);
+                    rvGames.setLayoutManager(new GridLayoutManager(Game.this, 3));
                     cardGameAdapter = new CardGameAdapter(cardViewGamesArrayList);
                     rvGames.setAdapter(cardGameAdapter);
 

@@ -11,7 +11,7 @@
     <string name="passwordP">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
-    <string name="added_user">USER CREATED!</string>
+    <string name="added_user">Please verify your account by email</string>
     <string name="texttoSignUp">Make an Account</string>
     <string name="createdat">Created at:</string>
     <string name="login">Logged in!</string>
