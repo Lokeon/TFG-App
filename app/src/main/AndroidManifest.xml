@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".game.GameUser"></activity>
+        <activity android:name=".game.GameViewUser"></activity>
+        <activity android:name=".game.GameView" />
+        <activity android:name=".game.GameUser" />
         <activity android:name=".game.Game" />
         <activity android:name=".user.ChangePassword" />
         <activity android:name=".user.Profile" />

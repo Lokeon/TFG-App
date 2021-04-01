@@ -17,6 +17,7 @@ import es.tfg.model.CardViewGames;
 
 public class CardGameAdapter extends RecyclerView.Adapter<CardGameAdapter.GameViewHolder> {
     private ArrayList<CardViewGames> data;
+    private ItemClickListener mClickListener;
 
     public CardGameAdapter(ArrayList<CardViewGames> data) {
         this.data = data;
@@ -40,7 +41,7 @@ public class CardGameAdapter extends RecyclerView.Adapter<CardGameAdapter.GameVi
         return data.size();
     }
 
-    class GameViewHolder extends RecyclerView.ViewHolder {
+    class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imgGame;
         TextView txtGame;
 
@@ -48,6 +49,27 @@ public class CardGameAdapter extends RecyclerView.Adapter<CardGameAdapter.GameVi
             super(itemView);
             imgGame = (ImageView) itemView.findViewById(R.id.imageGame);
             txtGame = (TextView) itemView.findViewById(R.id.nameGame);
+
+            itemView.setOnClickListener(this);
         }
+
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
+    }
+
+    public CardViewGames getItem(int id) {
+        return data.get(id);
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+
     }
 }

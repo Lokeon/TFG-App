@@ -231,6 +231,7 @@ public class GameUser extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonobject = jsonArray.getJSONObject(i);
                         cardViewGamesArrayList.add(new CardViewGames(
+                                jsonobject.getString("_id"),
                                 jsonobject.getString("image"),
                                 jsonobject.getString("name")));
                     }
@@ -239,6 +240,15 @@ public class GameUser extends AppCompatActivity {
                     rvGames.setLayoutManager(new GridLayoutManager(GameUser.this, 3));
                     cardGameAdapter = new CardGameAdapter(cardViewGamesArrayList);
                     rvGames.setAdapter(cardGameAdapter);
+                    cardGameAdapter.setClickListener(new CardGameAdapter.ItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Intent intent = new Intent(GameUser.this, GameViewUser.class);
+                            bundle.putString("id_game", cardGameAdapter.getItem(position).getId());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();

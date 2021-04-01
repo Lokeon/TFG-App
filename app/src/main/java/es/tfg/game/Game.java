@@ -30,6 +30,7 @@ import es.tfg.registration.SignIn;
 public class Game extends AppCompatActivity {
     private RecyclerView rvGames;
     private CardGameAdapter cardGameAdapter;
+    private Bundle bundle = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,6 @@ public class Game extends AppCompatActivity {
         setSupportActionBar(top_toolbar);
         getSupportActionBar().setTitle(R.string.game);
 
-
         new GetAllGames().execute();
 
     }
@@ -63,6 +63,7 @@ public class Game extends AppCompatActivity {
     public void goGame(View view) {
         startActivity(new Intent(Game.this, Game.class));
     }
+
 
     class GetAllGames extends AsyncTask<Void, Void, String> {
         private ArrayList<CardViewGames> cardViewGamesArrayList = new ArrayList<>();
@@ -104,6 +105,7 @@ public class Game extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonobject = jsonArray.getJSONObject(i);
                         cardViewGamesArrayList.add(new CardViewGames(
+                                jsonobject.getString("_id"),
                                 jsonobject.getString("image"),
                                 jsonobject.getString("name")));
                     }
@@ -111,6 +113,15 @@ public class Game extends AppCompatActivity {
                     rvGames = (RecyclerView) findViewById(R.id.rvGames);
                     rvGames.setLayoutManager(new GridLayoutManager(Game.this, 3));
                     cardGameAdapter = new CardGameAdapter(cardViewGamesArrayList);
+                    cardGameAdapter.setClickListener(new CardGameAdapter.ItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Intent intent = new Intent(Game.this, GameView.class);
+                            bundle.putString("id", cardGameAdapter.getItem(position).getId());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
                     rvGames.setAdapter(cardGameAdapter);
 
                 } catch (JSONException e) {

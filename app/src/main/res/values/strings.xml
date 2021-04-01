@@ -21,4 +21,6 @@
     <string name="cavatar"> Change Avatar</string>
     <string name="chavatar"> AVATAR CHANGED!!</string>
     <string name="game">Games</string>
+    <string name="genre">Genres</string>
 </resources>
+
