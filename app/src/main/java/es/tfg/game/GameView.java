@@ -20,7 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import es.tfg.MainActivity;
 import es.tfg.R;
+import es.tfg.registration.SignIn;
 
 public class GameView extends AppCompatActivity {
     private TextView nameGame;
@@ -56,6 +58,18 @@ public class GameView extends AppCompatActivity {
         id = bundle.getString("id").replace("\"", "");
 
         new GetGame().execute(id);
+    }
+
+    public void goHome(View view) {
+        startActivity(new Intent(GameView.this, MainActivity.class));
+    }
+
+    public void goSignIn(View view) {
+        startActivity(new Intent(GameView.this, SignIn.class));
+    }
+
+    public void goGame(View view) {
+        startActivity(new Intent(GameView.this, Game.class));
     }
 
     class GetGame extends AsyncTask<String, Void, String> {

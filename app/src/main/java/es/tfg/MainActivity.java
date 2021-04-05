@@ -11,7 +11,6 @@ import es.tfg.game.Game;
 import es.tfg.registration.SignIn;
 
 
-
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

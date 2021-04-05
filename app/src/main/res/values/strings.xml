@@ -22,5 +22,6 @@
     <string name="chavatar"> AVATAR CHANGED!!</string>
     <string name="game">Games</string>
     <string name="genre">Genres</string>
+    <string name="score">Score It!</string>
 </resources>
 

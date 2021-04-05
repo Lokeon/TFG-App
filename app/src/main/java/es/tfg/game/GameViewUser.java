@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,7 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -31,11 +36,12 @@ public class GameViewUser extends AppCompatActivity {
     private String token;
     private String id_user;
     private String id_game;
+    private String name_game;
     private TextView nameGame;
     private TextView descriptionGame;
     private ImageView imageGame;
     private TextView genre;
-
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class GameViewUser extends AppCompatActivity {
         token = bundle.getString("token").replace("\"", "");
         id_user = bundle.getString("id").replace("\"", "");
         id_game = bundle.getString("id_game").replace("\"", "");
+        name_game = bundle.getString("name_game").replace("\"", "");
         nameGame = (TextView) findViewById(R.id.name);
         descriptionGame = (TextView) findViewById(R.id.description);
         imageGame = (ImageView) findViewById(R.id.image);
@@ -75,6 +82,14 @@ public class GameViewUser extends AppCompatActivity {
         bottom_toolbar.setTitle("");
         bottom_toolbar.setSubtitle("");
 
+        ratingBar = (RatingBar) findViewById(R.id.rating);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                new PostRate().execute(new RateInfo(token, id_user, id_game, name_game, rating));
+            }
+        });
+
         new GetGame().execute(new GameInfo(token, id_game));
     }
 
@@ -97,6 +112,22 @@ public class GameViewUser extends AppCompatActivity {
         GameInfo(String token, String id) {
             this.id = id;
             this.token = token;
+        }
+    }
+
+    private static class RateInfo {
+        String id_user;
+        String id_game;
+        String name_game;
+        String token;
+        Float score;
+
+        RateInfo(String token, String id_user, String id_game, String name_game, Float score) {
+            this.id_user = id_user;
+            this.id_game = id_game;
+            this.name_game = name_game;
+            this.token = token;
+            this.score = score;
         }
     }
 
@@ -148,6 +179,54 @@ public class GameViewUser extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    class PostRate extends AsyncTask<RateInfo, Void, String> {
+        @Override
+        protected String doInBackground(RateInfo... strings) {
+            String text = null;
+            BufferedWriter bufferedWriter;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                JSONObject dataToSend = new JSONObject();
+
+                dataToSend.put("score", strings[0].score);
+                dataToSend.put("idUser", strings[0].id_user);
+                dataToSend.put("idGame", strings[0].id_game);
+                dataToSend.put("nameGame", strings[0].name_game);
+
+                URL url = new URL(getResources().getString(R.string.ip_rate));
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(30000);
+                urlConnection.setConnectTimeout(30000);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("auth-token", strings[0].token);
+                urlConnection.connect();
+
+                OutputStream outputStream = urlConnection.getOutputStream();
+                bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedWriter.write(dataToSend.toString());
+                bufferedWriter.flush();
+
+                text = String.valueOf(urlConnection.getResponseCode());
+            } catch (Exception e) {
+                return e.toString();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+
+            Toast.makeText(GameViewUser.this, "Score Submited!", Toast.LENGTH_SHORT).show();
         }
     }
 

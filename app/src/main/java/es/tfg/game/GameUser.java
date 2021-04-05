@@ -245,6 +245,7 @@ public class GameUser extends AppCompatActivity {
                         public void onItemClick(View view, int position) {
                             Intent intent = new Intent(GameUser.this, GameViewUser.class);
                             bundle.putString("id_game", cardGameAdapter.getItem(position).getId());
+                            bundle.putString("name_game", cardGameAdapter.getItem(position).getName());
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }
