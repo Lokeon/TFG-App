@@ -83,14 +83,17 @@ public class GameViewUser extends AppCompatActivity {
         bottom_toolbar.setSubtitle("");
 
         ratingBar = (RatingBar) findViewById(R.id.rating);
+        new GetGame().execute(new GameInfo(token, id_game));
+        new GetRate().execute(new RateInfo(token, id_user, id_game));
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                new PostRate().execute(new RateInfo(token, id_user, id_game, name_game, rating));
+                if (fromUser) {
+                    new PostRate().execute(new RateInfo(token, id_user, id_game, name_game, rating));
+                }
             }
         });
-
-        new GetGame().execute(new GameInfo(token, id_game));
     }
 
     public void goHome(View view) {
@@ -128,6 +131,12 @@ public class GameViewUser extends AppCompatActivity {
             this.name_game = name_game;
             this.token = token;
             this.score = score;
+        }
+
+        RateInfo(String token, String id_user, String id_game) {
+            this.id_user = id_user;
+            this.id_game = id_game;
+            this.token = token;
         }
     }
 
@@ -182,6 +191,53 @@ public class GameViewUser extends AppCompatActivity {
         }
     }
 
+    class GetRate extends AsyncTask<RateInfo, Void, String> {
+
+        @Override
+        protected String doInBackground(RateInfo... strings) {
+            String text;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                URL url = new URL(getResources().getString(R.string.ip_rated) + "/" + strings[0].id_user + "/" + strings[0].id_game);
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("auth-token", strings[0].token);
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                text = new Scanner(inputStream).useDelimiter("\\A").next();
+
+            } catch (Exception e) {
+                return e.toString();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+
+            if (results != null) {
+                try {
+                    JSONObject jsonobject = new JSONObject(results);
+                    ratingBar.setRating(Float.parseFloat(jsonobject.getString("score")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                ratingBar.setRating(0);
+            }
+        }
+    }
+
     class PostRate extends AsyncTask<RateInfo, Void, String> {
         @Override
         protected String doInBackground(RateInfo... strings) {
@@ -226,7 +282,11 @@ public class GameViewUser extends AppCompatActivity {
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
 
-            Toast.makeText(GameViewUser.this, "Score Submited!", Toast.LENGTH_SHORT).show();
+            if (Integer.parseInt(results) == 201) {
+                Toast.makeText(GameViewUser.this, "Score Updated!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(GameViewUser.this, "Score Submited!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
