@@ -40,6 +40,8 @@ public class GameViewUser extends AppCompatActivity {
     private TextView nameGame;
     private TextView descriptionGame;
     private ImageView imageGame;
+    private TextView averageGame;
+    private TextView ratedGame;
     private TextView genre;
     private RatingBar ratingBar;
 
@@ -63,6 +65,8 @@ public class GameViewUser extends AppCompatActivity {
         descriptionGame = (TextView) findViewById(R.id.description);
         imageGame = (ImageView) findViewById(R.id.image);
         genre = (TextView) findViewById(R.id.genre);
+        averageGame = (TextView) findViewById(R.id.avg);
+        ratedGame = (TextView) findViewById(R.id.rated);
 
         bundleSend = new Bundle();
         bundleSend.putString("token", token);
@@ -183,6 +187,8 @@ public class GameViewUser extends AppCompatActivity {
                     genre.setText(jsonobject.getString("genre"));
                     byte[] decodedString = Base64.decode(jsonobject.getString("image"), Base64.DEFAULT);
                     imageGame.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+                    averageGame.setText(jsonobject.getString("avg"));
+                    ratedGame.setText(jsonobject.getString("rates"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -284,8 +290,20 @@ public class GameViewUser extends AppCompatActivity {
 
             if (Integer.parseInt(results) == 201) {
                 Toast.makeText(GameViewUser.this, "Score Updated!", Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
+                overridePendingTransition(0, 0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
             } else {
                 Toast.makeText(GameViewUser.this, "Score Submited!", Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
+                overridePendingTransition(0, 0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
             }
         }
     }
