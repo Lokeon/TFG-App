@@ -31,6 +31,7 @@ import java.util.Scanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
 import es.tfg.adapter.CardGameAdapter;
+import es.tfg.list.ScoreList;
 import es.tfg.model.CardViewGames;
 import es.tfg.registration.SignIn;
 import es.tfg.user.Profile;
@@ -117,6 +118,10 @@ public class GameUser extends AppCompatActivity {
 
     public void goGame(View view) {
         startActivity(new Intent(GameUser.this, GameUser.class).putExtras(bundleSend));
+    }
+
+    public void goList(View view) {
+        startActivity(new Intent(GameUser.this, ScoreList.class).putExtras(bundleSend));
     }
 
     public void openMenu(View view) {
@@ -257,8 +262,6 @@ public class GameUser extends AppCompatActivity {
             }
         }
     }
-
-
 }
 
 

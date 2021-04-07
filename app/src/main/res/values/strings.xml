@@ -26,5 +26,6 @@
     <string name="scoreAvg">Score Average</string>
     <string name="rated">User\'s rated</string>
     <string name="description">Description</string>
+    <string name="scoreList">Score List</string>
 </resources>
 

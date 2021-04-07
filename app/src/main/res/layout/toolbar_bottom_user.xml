@@ -41,7 +41,7 @@
             android:background="@drawable/ic_list"
             android:backgroundTint="@color/whiteSmoke"
             android:layout_toStartOf="@id/button_recommendation"
-
+            android:onClick="goList"
             />
 
 

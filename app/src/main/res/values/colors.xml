@@ -2,5 +2,7 @@
 <resources>
     <color name="gray">#333</color>
     <color name="whiteSmoke">#f1f1f1</color>
-
+    <color name="cell_background_color">#ffffff</color>
+    <color name="header_line_color">#0a0a0a</color>
+    <color name="table_view_default_text_color">#0a0a0a</color>
 </resources>

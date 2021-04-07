@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.Scanner;
 
 import es.tfg.R;
+import es.tfg.list.ScoreList;
 import es.tfg.user.Profile;
 import es.tfg.user.UserActivity;
 
@@ -110,6 +111,10 @@ public class GameViewUser extends AppCompatActivity {
 
     public void goGame(View view) {
         startActivity(new Intent(GameViewUser.this, GameUser.class).putExtras(bundleSend));
+    }
+
+    public void goList(View view) {
+        startActivity(new Intent(GameViewUser.this, ScoreList.class).putExtras(bundleSend));
     }
 
     private static class GameInfo {

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".list.ScoreList">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/top_toolbar_user"
+            layout="@layout/toolbar_top_user" />
+        <!--
+        app:selected_color="@color/selected_background_color"
+        app:shadow_color="@color/shadow_background_color"
+        app:unselected_color="@color/unselected_background_color" -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical|center_horizontal|center">
+
+        <com.evrencoskun.tableview.TableView
+            android:id="@+id/tableviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/bottom_toolbar_user"
+            layout="@layout/toolbar_bottom_user" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/darker_gray">
+
+        <include layout="@layout/menu_nav_drawer" />
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
