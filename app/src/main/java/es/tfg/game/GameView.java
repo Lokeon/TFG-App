@@ -45,7 +45,8 @@ public class GameView extends AppCompatActivity {
         top_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GameView.this, Game.class));
+                // back button pressed
+                finish();
             }
         });
 

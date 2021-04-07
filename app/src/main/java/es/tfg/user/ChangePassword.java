@@ -81,7 +81,8 @@ public class ChangePassword extends AppCompatActivity {
         top_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ChangePassword.this, Profile.class).putExtras(bundleSend));
+                // back button pressed
+                finish();
             }
         });
 

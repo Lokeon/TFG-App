@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:id="@+id/row_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/cell_background_color"
-    android:gravity="center"
     android:layout_width="@dimen/default_row_header_width"
     android:layout_height="@dimen/cell_height">
 
@@ -23,7 +21,7 @@
             android:textColor="@color/table_view_default_text_color"
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            tools:text="Row Data" />
+            />
     </LinearLayout>
 
     <View

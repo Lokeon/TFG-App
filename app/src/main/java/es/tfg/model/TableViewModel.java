@@ -13,6 +13,7 @@ public class TableViewModel {
 
         list.add(new ColumnHeader("Name"));
         list.add(new ColumnHeader("Score"));
+        list.add(new ColumnHeader("Score Date"));
 
         return list;
     }

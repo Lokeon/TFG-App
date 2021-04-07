@@ -25,7 +25,9 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
 import es.tfg.adapter.TableViewAdapter;
 import es.tfg.game.GameUser;
+import es.tfg.listener.TableViewListener;
 import es.tfg.model.Cell;
 import es.tfg.model.TableViewModel;
 import es.tfg.registration.SignIn;
@@ -50,7 +53,6 @@ public class ScoreList extends AppCompatActivity {
     private String id;
     private CircleImageView circleImageView;
     private TableView tableView;
-    private TableViewAdapter tableViewAdapter;
     private List<List<Cell>> list;
 
 
@@ -131,6 +133,23 @@ public class ScoreList extends AppCompatActivity {
 
     public void goList(View view) {
         startActivity(new Intent(ScoreList.this, ScoreList.class).putExtras(bundleSend));
+    }
+
+    public String formatDate(String date) {
+        String dateFormatted = null;
+
+        try {
+            String[] dateN = date.split("T");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateD = dateFormat.parse(dateN[0]);
+
+            dateFormat.applyPattern("MM-dd-yyyy");
+            dateFormatted = dateFormat.format(dateD);
+
+        } catch (Exception e) {
+        }
+
+        return dateFormatted;
     }
 
     public void openMenu(View view) {
@@ -247,14 +266,16 @@ public class ScoreList extends AppCompatActivity {
 
                         listC.add(new Cell(jsonobject.getString("nameGame")));
                         listC.add(new Cell(jsonobject.getString("score")));
+                        listC.add(new Cell(formatDate(jsonobject.getString("date"))));
 
                         list.add(listC);
                     }
 
                     TableViewModel tableViewModel = new TableViewModel();
 
-                    tableViewAdapter = new TableViewAdapter(tableViewModel);
+                    TableViewAdapter tableViewAdapter = new TableViewAdapter(tableViewModel);
                     tableView.setAdapter(tableViewAdapter);
+                    tableView.setTableViewListener(new TableViewListener(tableView, list, token));
 
                     tableViewAdapter.setAllItems(tableViewModel.getColumnHeaderList(), tableViewModel.getRowHeaderList(list.size()), list);
 
