@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|center"
+    android:layout_marginTop="40dp"
+    android:orientation="vertical"
+    android:padding="2dip">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            android:text="@string/nameGame"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TxtGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/dialog_ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:isIndicator="false"
+        android:numStars="5" />
+
+    <Button
+        android:id="@+id/BtnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/whiteSmoke"
+        android:text="@string/cancel"
+        android:layout_gravity="right" />
+
+</LinearLayout>

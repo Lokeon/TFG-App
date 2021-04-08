@@ -11,9 +11,9 @@ public class TableViewModel {
     public List<ColumnHeader> getColumnHeaderList() {
         List<ColumnHeader> list = new ArrayList<>();
 
-        list.add(new ColumnHeader("Name"));
-        list.add(new ColumnHeader("Score"));
-        list.add(new ColumnHeader("Score Date"));
+        list.add(new ColumnHeader(String.valueOf(0), "Name"));
+        list.add(new ColumnHeader(String.valueOf(1), "Score"));
+        list.add(new ColumnHeader(String.valueOf(2), "Score Date"));
 
         return list;
     }
@@ -22,7 +22,7 @@ public class TableViewModel {
     public List<RowHeader> getRowHeaderList(int size) {
         List<RowHeader> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            list.add(new RowHeader(String.valueOf(i + 1)));
+            list.add(new RowHeader(String.valueOf(i), String.valueOf(i + 1)));
         }
         return list;
     }

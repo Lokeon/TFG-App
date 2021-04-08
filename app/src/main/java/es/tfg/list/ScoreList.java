@@ -264,9 +264,9 @@ public class ScoreList extends AppCompatActivity {
                         JSONObject jsonobject = jsonArray.getJSONObject(i);
                         List<Cell> listC = new ArrayList<>();
 
-                        listC.add(new Cell(jsonobject.getString("nameGame")));
-                        listC.add(new Cell(jsonobject.getString("score")));
-                        listC.add(new Cell(formatDate(jsonobject.getString("date"))));
+                        listC.add(new Cell(String.valueOf(i), jsonobject.getString("nameGame")));
+                        listC.add(new Cell(String.valueOf(i), jsonobject.getString("score")));
+                        listC.add(new Cell(String.valueOf(i), formatDate(jsonobject.getString("date"))));
 
                         list.add(listC);
                     }

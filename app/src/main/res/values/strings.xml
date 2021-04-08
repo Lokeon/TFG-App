@@ -23,9 +23,13 @@
     <string name="game">Games</string>
     <string name="genre">Genres</string>
     <string name="score">Your Score</string>
-    <string name="scoreAvg">Score Average</string>
-    <string name="rated">User\'s rated</string>
+    <string name="scoreAvg">Score Average:</string>
+    <string name="rated">User\'s rated:</string>
     <string name="description">Description</string>
     <string name="scoreList">Score List</string>
+    <string name="nameGame">Game:</string>
+    <string name="cancel">Cancel</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_descending">Descending</string>
 </resources>
 
