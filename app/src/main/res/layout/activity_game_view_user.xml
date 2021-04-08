@@ -89,7 +89,6 @@
                     android:transformPivotY="0dp" />
 
             </GridLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -141,7 +140,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
 
-
             </LinearLayout>
 
             <TextView
@@ -158,22 +156,21 @@
                 android:layout_height="274dp"
                 android:layout_margin="10dp" />
 
+        </LinearLayout>
+    </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/bottom_toolbar_user"
+                layout="@layout/toolbar_bottom_user" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <include
-                    android:id="@+id/bottom_toolbar_user"
-                    layout="@layout/toolbar_bottom_user" />
-            </LinearLayout>
-
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -21,15 +21,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:paddingBottom="?actionBarSize"
+            android:layout_marginBottom="20dp"
             android:layout_marginStart="10dp"
             app:allow_click_inside_cell="true"
             app:allow_click_inside_row_header="true"
             app:allow_click_inside_column_header="true" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <include
             android:id="@+id/bottom_toolbar_user"

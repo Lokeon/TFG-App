@@ -1,9 +1,13 @@
 package es.tfg.game;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -67,6 +71,22 @@ public class Game extends AppCompatActivity {
 
     class GetAllGames extends AsyncTask<Void, Void, String> {
         private ArrayList<CardViewGames> cardViewGamesArrayList = new ArrayList<>();
+        private Dialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            dialog = new Dialog(Game.this);
+            dialog.setCancelable(true);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.progressbar_dialog);
+            TextView textView = (TextView) dialog.findViewById(R.id.spinnerTitle);
+            textView.setText(R.string.loading);
+            ProgressBar progress = (ProgressBar) dialog.findViewById(R.id.spinner);
+
+            dialog.show();
+        }
 
         @Override
         protected String doInBackground(Void... strings) {
@@ -97,6 +117,7 @@ public class Game extends AppCompatActivity {
         @Override
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
+            dialog.dismiss();
 
             if (results != null) {
                 JSONArray jsonArray;

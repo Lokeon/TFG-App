@@ -31,5 +31,6 @@
     <string name="cancel">Cancel</string>
     <string name="sort_ascending">Ascending</string>
     <string name="sort_descending">Descending</string>
+    <string name="loading">Loading…</string>
 </resources>
 

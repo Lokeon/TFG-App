@@ -2,6 +2,7 @@ package es.tfg.list;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -223,7 +226,23 @@ public class ScoreList extends AppCompatActivity {
         }
     }
 
-    class GetRates extends AsyncTask<UserInfo, Void, String> {
+    class GetRates extends AsyncTask<UserInfo, Integer, String> {
+        private Dialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            dialog = new Dialog(ScoreList.this);
+            dialog.setCancelable(true);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.progressbar_dialog);
+            TextView textView = (TextView) dialog.findViewById(R.id.spinnerTitle);
+            textView.setText(R.string.loading);
+            ProgressBar progress = (ProgressBar) dialog.findViewById(R.id.spinner);
+
+            dialog.show();
+        }
 
         @Override
         protected String doInBackground(UserInfo... strings) {
@@ -255,6 +274,8 @@ public class ScoreList extends AppCompatActivity {
         @Override
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
+
+            dialog.dismiss();
 
             if (results != null) {
                 JSONArray jsonArray;
