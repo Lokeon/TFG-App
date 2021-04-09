@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
     android:layout_gravity="bottom|center"
+    android:gravity="bottom"
     app:layout_scrollFlags="scroll|enterAlways"
     android:background="@color/gray">
 

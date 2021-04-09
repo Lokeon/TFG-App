@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class CardGameAdapter extends RecyclerView.Adapter<CardGameAdapter.GameVi
     }
 
     @Override
-    public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new GameViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_game, parent, false));
     }
 
@@ -39,6 +40,19 @@ public class CardGameAdapter extends RecyclerView.Adapter<CardGameAdapter.GameVi
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public CardViewGames getItem(int id) {
+        return data.get(id);
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+
     }
 
     class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -58,18 +72,5 @@ public class CardGameAdapter extends RecyclerView.Adapter<CardGameAdapter.GameVi
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
-    }
-
-    public CardViewGames getItem(int id) {
-        return data.get(id);
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-
     }
 }

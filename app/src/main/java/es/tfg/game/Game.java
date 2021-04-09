@@ -1,16 +1,13 @@
 package es.tfg.game;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,23 +15,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import es.tfg.MainActivity;
 import es.tfg.R;
 import es.tfg.adapter.CardGameAdapter;
 import es.tfg.model.CardViewGames;
 import es.tfg.registration.SignIn;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class Game extends AppCompatActivity {
+    private final int limit = 9;
     private RecyclerView rvGames;
-    private CardGameAdapter cardGameAdapter;
+    private NestedScrollView nestedScrollView;
+    private ProgressBar progressBar;
+    private ArrayList<CardViewGames> gameArray = new ArrayList<>();
+    private CardGameAdapter adapter;
     private Bundle bundle = new Bundle();
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,23 @@ public class Game extends AppCompatActivity {
         setSupportActionBar(top_toolbar);
         getSupportActionBar().setTitle(R.string.game);
 
-        new GetAllGames().execute();
+        nestedScrollView = (NestedScrollView) findViewById(R.id.scroll_game);
+        rvGames = (RecyclerView) findViewById(R.id.rvGames);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+
+        getData(page, limit);
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (!v.canScrollVertically(1)) {
+                    page++;
+                    progressBar.setVisibility(View.VISIBLE);
+                    getData(page, limit);
+                }
+            }
+        });
 
     }
 
@@ -68,90 +87,55 @@ public class Game extends AppCompatActivity {
         startActivity(new Intent(Game.this, Game.class));
     }
 
+    private void getData(int page, int limit) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.17:3000/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
 
-    class GetAllGames extends AsyncTask<Void, Void, String> {
-        private ArrayList<CardViewGames> cardViewGamesArrayList = new ArrayList<>();
-        private Dialog dialog;
+        GameInterface gameInterface = retrofit.create(GameInterface.class);
+        Call<String> call = gameInterface.STRING_CALL(page, limit);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    progressBar.setVisibility(View.GONE);
+                    try {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+                        JSONArray jsonArray = new JSONArray(response.body());
 
-            dialog = new Dialog(Game.this);
-            dialog.setCancelable(true);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.progressbar_dialog);
-            TextView textView = (TextView) dialog.findViewById(R.id.spinnerTitle);
-            textView.setText(R.string.loading);
-            ProgressBar progress = (ProgressBar) dialog.findViewById(R.id.spinner);
-
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(Void... strings) {
-            String text = null;
-            HttpURLConnection urlConnection = null;
-
-            try {
-                URL url = new URL(getResources().getString(R.string.ip_ggames));
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setReadTimeout(10000);
-                urlConnection.setConnectTimeout(10000);
-                urlConnection.setRequestMethod("GET");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                text = new Scanner(inputStream).useDelimiter("\\A").next();
-
-            } catch (Exception e) {
-                return e.toString();
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            return text;
-        }
-
-        @Override
-        protected void onPostExecute(String results) {
-            super.onPostExecute(results);
-            dialog.dismiss();
-
-            if (results != null) {
-                JSONArray jsonArray;
-                try {
-                    jsonArray = new JSONArray(results);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonobject = jsonArray.getJSONObject(i);
-                        cardViewGamesArrayList.add(new CardViewGames(
-                                jsonobject.getString("_id"),
-                                jsonobject.getString("image"),
-                                jsonobject.getString("name")));
-                    }
-
-                    rvGames = (RecyclerView) findViewById(R.id.rvGames);
-                    rvGames.setLayoutManager(new GridLayoutManager(Game.this, 3));
-                    cardGameAdapter = new CardGameAdapter(cardViewGamesArrayList);
-                    cardGameAdapter.setClickListener(new CardGameAdapter.ItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Intent intent = new Intent(Game.this, GameView.class);
-                            bundle.putString("id", cardGameAdapter.getItem(position).getId());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            gameArray.add(new CardViewGames(
+                                    jsonobject.getString("_id"),
+                                    jsonobject.getString("image"),
+                                    jsonobject.getString("name")));
                         }
-                    });
-                    rvGames.setAdapter(cardGameAdapter);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        adapter = new CardGameAdapter(gameArray);
+                        rvGames.setLayoutManager(new GridLayoutManager(Game.this, 3));
+                        adapter.setClickListener(new CardGameAdapter.ItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent(Game.this, GameView.class);
+                                bundle.putString("id", adapter.getItem(position).getId());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                        rvGames.setAdapter(adapter);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
-    }
 
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
 }
 
 

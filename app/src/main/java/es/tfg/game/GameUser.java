@@ -10,13 +10,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,10 +39,16 @@ import es.tfg.model.CardViewGames;
 import es.tfg.registration.SignIn;
 import es.tfg.user.Profile;
 import es.tfg.user.UserActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class GameUser extends AppCompatActivity {
 
+    private final int limit = 9;
     private DrawerLayout drawerLayout;
     private TextView userText;
     private Bundle bundle;
@@ -51,7 +57,11 @@ public class GameUser extends AppCompatActivity {
     private String id;
     private CircleImageView circleImageView;
     private RecyclerView rvGames;
-    private CardGameAdapter cardGameAdapter;
+    private CardGameAdapter adapter;
+    private int page = 1;
+    private NestedScrollView nestedScrollView;
+    private ProgressBar progressBar;
+    private ArrayList<CardViewGames> gameArray = new ArrayList<>();
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -107,8 +117,26 @@ public class GameUser extends AppCompatActivity {
         bundleSend.putString("token", token);
         bundleSend.putString("id", id);
 
+        nestedScrollView = (NestedScrollView) findViewById(R.id.scroll_game);
+        rvGames = (RecyclerView) findViewById(R.id.rvGames);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+
+        getData(page, limit);
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (!v.canScrollVertically(1)) {
+                    page++;
+                    progressBar.setVisibility(View.VISIBLE);
+                    getData(page, limit);
+                }
+            }
+        });
+
         new GetUsername().execute(new UserInfo(token, id));
-        new GetAllGames().execute(new UserInfo(token, id));
+
     }
 
     public void goHome(View view) {
@@ -139,6 +167,57 @@ public class GameUser extends AppCompatActivity {
         logout(this);
     }
 
+    private void getData(int page, int limit) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.17:3000/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        GameUserInterface gameUserInterface = retrofit.create(GameUserInterface.class);
+        Call<String> call = gameUserInterface.STRING_CALL(page, limit, token);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    progressBar.setVisibility(View.GONE);
+                    try {
+
+                        JSONArray jsonArray = new JSONArray(response.body());
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            gameArray.add(new CardViewGames(
+                                    jsonobject.getString("_id"),
+                                    jsonobject.getString("image"),
+                                    jsonobject.getString("name")));
+                        }
+
+                        adapter = new CardGameAdapter(gameArray);
+                        rvGames.setLayoutManager(new GridLayoutManager(GameUser.this, 3));
+                        adapter.setClickListener(new CardGameAdapter.ItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent(GameUser.this, GameViewUser.class);
+                                bundle.putString("id_game", adapter.getItem(position).getId());
+                                bundle.putString("name_game", adapter.getItem(position).getName());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                        rvGames.setAdapter(adapter);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
+
     private static class UserInfo {
         String id;
         String token;
@@ -151,21 +230,6 @@ public class GameUser extends AppCompatActivity {
 
     class GetUsername extends AsyncTask<UserInfo, Void, String> {
         private Dialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            dialog = new Dialog(GameUser.this);
-            dialog.setCancelable(true);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.progressbar_dialog);
-            TextView textView = (TextView) dialog.findViewById(R.id.spinnerTitle);
-            textView.setText(R.string.loading);
-            ProgressBar progress = (ProgressBar) dialog.findViewById(R.id.spinner);
-
-            dialog.show();
-        }
 
         @Override
         protected String doInBackground(UserInfo... strings) {
@@ -198,7 +262,6 @@ public class GameUser extends AppCompatActivity {
         @Override
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
-            dialog.dismiss();
 
             if (results != null) {
                 try {
@@ -215,73 +278,6 @@ public class GameUser extends AppCompatActivity {
         }
     }
 
-    class GetAllGames extends AsyncTask<UserInfo, Void, String> {
-        private ArrayList<CardViewGames> cardViewGamesArrayList = new ArrayList<>();
-
-        @Override
-        protected String doInBackground(UserInfo... strings) {
-            String text;
-            HttpURLConnection urlConnection = null;
-
-            try {
-                URL url = new URL(getResources().getString(R.string.ip_ugames));
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setReadTimeout(10000);
-                urlConnection.setConnectTimeout(10000);
-                urlConnection.setRequestMethod("GET");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setRequestProperty("auth-token", strings[0].token);
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                text = new Scanner(inputStream).useDelimiter("\\A").next();
-
-            } catch (Exception e) {
-                return e.toString();
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            return text;
-        }
-
-        @Override
-        protected void onPostExecute(String results) {
-            super.onPostExecute(results);
-
-            if (results != null) {
-                JSONArray jsonArray;
-                try {
-                    jsonArray = new JSONArray(results);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonobject = jsonArray.getJSONObject(i);
-                        cardViewGamesArrayList.add(new CardViewGames(
-                                jsonobject.getString("_id"),
-                                jsonobject.getString("image"),
-                                jsonobject.getString("name")));
-                    }
-
-                    rvGames = (RecyclerView) findViewById(R.id.rvGames);
-                    rvGames.setLayoutManager(new GridLayoutManager(GameUser.this, 3));
-                    cardGameAdapter = new CardGameAdapter(cardViewGamesArrayList);
-                    rvGames.setAdapter(cardGameAdapter);
-                    cardGameAdapter.setClickListener(new CardGameAdapter.ItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Intent intent = new Intent(GameUser.this, GameViewUser.class);
-                            bundle.putString("id_game", cardGameAdapter.getItem(position).getId());
-                            bundle.putString("name_game", cardGameAdapter.getItem(position).getName());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
 
 
