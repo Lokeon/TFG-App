@@ -16,9 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".list.ScoreList"
-            android:screenOrientation="portrait" />
+        <activity android:name=".list.ScoreList" />
         <activity
             android:name=".game.GameViewUser"
             android:screenOrientation="portrait" />
