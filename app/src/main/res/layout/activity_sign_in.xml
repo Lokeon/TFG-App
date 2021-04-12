@@ -50,6 +50,7 @@
                 android:text="@string/texttoSignUp"
                 android:clickable="true"
                 android:onClick="goSignUp"
+                android:textColor="@color/header_line_color"
                 android:textStyle="bold" />
 
             <Button

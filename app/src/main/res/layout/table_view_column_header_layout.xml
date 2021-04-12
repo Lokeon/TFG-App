@@ -27,7 +27,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textColor="@color/table_view_default_text_color"
+                android:textStyle="bold"
+                android:textColor="@color/header_line_color"
                 android:textSize="@dimen/text_size" />
 
             <ImageButton

@@ -41,7 +41,7 @@
 
         <LinearLayout
             android:layout_width="137dp"
-            android:layout_height="368dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <GridLayout
@@ -83,7 +83,7 @@
                     <TextView
                         android:id="@+id/genre"
                         android:layout_width="match_parent"
-                        android:layout_height="31dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginRight="10dp"
@@ -103,7 +103,7 @@
                     <TextView
                         android:id="@+id/platforms"
                         android:layout_width="match_parent"
-                        android:layout_height="31dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginRight="10dp"
@@ -139,7 +139,7 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="384dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/roboto"
                 android:textStyle="bold" />
