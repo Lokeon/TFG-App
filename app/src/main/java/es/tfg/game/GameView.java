@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,11 +27,6 @@ import es.tfg.R;
 import es.tfg.registration.SignIn;
 
 public class GameView extends AppCompatActivity {
-    private TextView nameGame;
-    private TextView descriptionGame;
-    private ImageView imageGame;
-    private TextView platformsGames;
-    private TextView genre;
     private Bundle bundle;
     private String id;
 
@@ -50,12 +47,6 @@ public class GameView extends AppCompatActivity {
             }
         });
 
-        nameGame = (TextView) findViewById(R.id.name);
-        descriptionGame = (TextView) findViewById(R.id.description);
-        imageGame = (ImageView) findViewById(R.id.image);
-        platformsGames = (TextView) findViewById(R.id.platforms);
-        genre = (TextView) findViewById(R.id.genre);
-
         bundle = getIntent().getExtras();
         id = bundle.getString("id").replace("\"", "");
 
@@ -75,6 +66,38 @@ public class GameView extends AppCompatActivity {
     }
 
     class GetGame extends AsyncTask<String, Void, String> {
+        private TextView nameGame;
+        private TextView descriptionGame;
+        private ImageView imageGame;
+        private TextView genre;
+        private TextView platforms;
+        private TextView ttgenre;
+        private TextView ttplat;
+        private TextView ttdesc;
+        private LinearLayout llimage;
+        private LinearLayout llinfo;
+        private LinearLayout lldescription;
+        private ProgressBar progressBar;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            nameGame = (TextView) findViewById(R.id.name);
+            descriptionGame = (TextView) findViewById(R.id.description);
+            imageGame = (ImageView) findViewById(R.id.image);
+            genre = (TextView) findViewById(R.id.genre);
+            platforms = (TextView) findViewById(R.id.platforms);
+            llimage = (LinearLayout) findViewById(R.id.llimage);
+            llinfo = (LinearLayout) findViewById(R.id.llinfo);
+            lldescription = (LinearLayout) findViewById(R.id.lldescription);
+            ttdesc = (TextView) findViewById(R.id.descs);
+            ttgenre = (TextView) findViewById(R.id.genres);
+            ttplat = (TextView) findViewById(R.id.platf);
+            progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -111,10 +134,17 @@ public class GameView extends AppCompatActivity {
                 try {
                     JSONObject jsonobject = new JSONObject(results);
 
+                    progressBar.setVisibility(View.GONE);
+                    llimage.setBackgroundResource(R.drawable.border);
+                    llinfo.setBackgroundResource(R.drawable.border);
+                    ttdesc.setText(getResources().getString(R.string.description));
+                    ttgenre.setText(getResources().getString(R.string.genre));
+                    ttplat.setText(getResources().getString(R.string.platforms));
+                    lldescription.setBackgroundResource(R.drawable.border);
                     nameGame.setText(jsonobject.getString("name"));
                     descriptionGame.setText(jsonobject.getString("description"));
                     genre.setText(jsonobject.getString("genre"));
-                    platformsGames.setText(jsonobject.getString("platforms"));
+                    platforms.setText(jsonobject.getString("platforms"));
                     byte[] decodedString = Base64.decode(jsonobject.getString("image"), Base64.DEFAULT);
                     imageGame.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 

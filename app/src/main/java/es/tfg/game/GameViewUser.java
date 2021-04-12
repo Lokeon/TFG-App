@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +40,6 @@ public class GameViewUser extends AppCompatActivity {
     private String id_user;
     private String id_game;
     private String name_game;
-    private TextView nameGame;
-    private TextView descriptionGame;
-    private ImageView imageGame;
-    private TextView averageGame;
-    private TextView ratedGame;
-    private TextView genre;
-    private TextView platforms;
     private RatingBar ratingBar;
 
     @Override
@@ -63,13 +58,6 @@ public class GameViewUser extends AppCompatActivity {
         id_user = bundle.getString("id").replace("\"", "");
         id_game = bundle.getString("id_game").replace("\"", "");
         name_game = bundle.getString("name_game").replace("\"", "");
-        nameGame = (TextView) findViewById(R.id.name);
-        descriptionGame = (TextView) findViewById(R.id.description);
-        imageGame = (ImageView) findViewById(R.id.image);
-        genre = (TextView) findViewById(R.id.genre);
-        platforms = (TextView) findViewById(R.id.platforms);
-        averageGame = (TextView) findViewById(R.id.avg);
-        ratedGame = (TextView) findViewById(R.id.rated);
 
         bundleSend = new Bundle();
         bundleSend.putString("token", token);
@@ -90,6 +78,7 @@ public class GameViewUser extends AppCompatActivity {
         bottom_toolbar.setSubtitle("");
 
         ratingBar = (RatingBar) findViewById(R.id.rating);
+        ratingBar.setVisibility(View.INVISIBLE);
         new GetGame().execute(new GameInfo(token, id_game));
         new GetRate().execute(new RateInfo(token, id_user, id_game));
 
@@ -152,6 +141,50 @@ public class GameViewUser extends AppCompatActivity {
     }
 
     class GetGame extends AsyncTask<GameInfo, Void, String> {
+        private TextView nameGame;
+        private TextView descriptionGame;
+        private ImageView imageGame;
+        private TextView averageGame;
+        private TextView ratedGame;
+        private TextView genre;
+        private TextView platforms;
+        private TextView ttscore;
+        private TextView ttuser;
+        private TextView ttgenre;
+        private TextView ttplat;
+        private TextView ttycore;
+        private TextView ttdesc;
+        private LinearLayout llimage;
+        private LinearLayout llinfo;
+        private LinearLayout lldescription;
+        private LinearLayout llstats;
+        private ProgressBar progressBar;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            nameGame = (TextView) findViewById(R.id.name);
+            descriptionGame = (TextView) findViewById(R.id.description);
+            imageGame = (ImageView) findViewById(R.id.image);
+            genre = (TextView) findViewById(R.id.genre);
+            platforms = (TextView) findViewById(R.id.platforms);
+            averageGame = (TextView) findViewById(R.id.avg);
+            ratedGame = (TextView) findViewById(R.id.rated);
+            llimage = (LinearLayout) findViewById(R.id.llimage);
+            llinfo = (LinearLayout) findViewById(R.id.llinfo);
+            lldescription = (LinearLayout) findViewById(R.id.lldescription);
+            llstats = (LinearLayout) findViewById(R.id.llstats);
+            ttscore = (TextView) findViewById(R.id.scoreav);
+            ttuser = (TextView) findViewById(R.id.userrated);
+            ttdesc = (TextView) findViewById(R.id.descs);
+            ttgenre = (TextView) findViewById(R.id.genres);
+            ttplat = (TextView) findViewById(R.id.platf);
+            ttycore = (TextView) findViewById(R.id.ratingscore);
+            progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(GameInfo... strings) {
@@ -189,6 +222,18 @@ public class GameViewUser extends AppCompatActivity {
                 try {
                     JSONObject jsonobject = new JSONObject(results);
 
+                    progressBar.setVisibility(View.GONE);
+                    ratingBar.setVisibility(View.VISIBLE);
+                    llimage.setBackgroundResource(R.drawable.border);
+                    llstats.setBackgroundResource(R.drawable.border);
+                    llinfo.setBackgroundResource(R.drawable.border);
+                    ttscore.setText(getResources().getString(R.string.scoreAvg));
+                    ttuser.setText(getResources().getString(R.string.rated));
+                    ttdesc.setText(getResources().getString(R.string.description));
+                    ttgenre.setText(getResources().getString(R.string.genre));
+                    ttplat.setText(getResources().getString(R.string.platforms));
+                    ttycore.setText(getResources().getString(R.string.score));
+                    lldescription.setBackgroundResource(R.drawable.border);
                     nameGame.setText(jsonobject.getString("name"));
                     descriptionGame.setText(jsonobject.getString("description"));
                     genre.setText(jsonobject.getString("genre"));

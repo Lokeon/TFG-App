@@ -50,10 +50,10 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/llimage"
                     android:layout_width="match_parent"
                     android:layout_height="193dp"
                     android:layout_margin="5dp"
-                    android:background="@drawable/border"
                     android:padding="4dp">
 
                     <ImageView
@@ -65,17 +65,17 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llinfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/border"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/genres"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/genre"
                         android:textAlignment="center"
                         android:textColor="@color/header_line_color"
                         android:textStyle="bold" />
@@ -92,10 +92,10 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/platf"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/platforms"
                         android:textAlignment="center"
                         android:textColor="@color/header_line_color"
                         android:textStyle="bold" />
@@ -119,18 +119,18 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lldescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/border"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/descs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/description"
                 android:textAlignment="center"
                 android:textColor="@color/header_line_color"
                 android:textSize="16sp"
@@ -143,6 +143,14 @@
                 android:layout_margin="10dp"
                 android:fontFamily="@font/roboto"
                 android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/header_line_color"
+                android:indeterminateTintMode="src_atop"
+                android:paddingBottom="?actionBarSize" />
         </LinearLayout>
 
     </LinearLayout>
