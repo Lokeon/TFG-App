@@ -16,23 +16,49 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".list.ScoreList"></activity>
-        <activity android:name=".game.GameViewUser" />
-        <activity android:name=".game.GameView" />
-        <activity android:name=".game.GameUser" />
-        <activity android:name=".game.Game" />
-        <activity android:name=".user.ChangePassword" />
-        <activity android:name=".user.Profile" />
-        <activity android:name=".registration.SignIn" />
-        <activity android:name=".registration.SignUp" />
-        <activity android:name=".user.UserActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".list.ScoreList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.GameViewUser"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.GameView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.GameUser"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.Game"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.ChangePassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.Profile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.SignIn"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.SignUp"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.UserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

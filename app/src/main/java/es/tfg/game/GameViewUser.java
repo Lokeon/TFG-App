@@ -44,6 +44,7 @@ public class GameViewUser extends AppCompatActivity {
     private TextView averageGame;
     private TextView ratedGame;
     private TextView genre;
+    private TextView platforms;
     private RatingBar ratingBar;
 
     @Override
@@ -66,6 +67,7 @@ public class GameViewUser extends AppCompatActivity {
         descriptionGame = (TextView) findViewById(R.id.description);
         imageGame = (ImageView) findViewById(R.id.image);
         genre = (TextView) findViewById(R.id.genre);
+        platforms = (TextView) findViewById(R.id.platforms);
         averageGame = (TextView) findViewById(R.id.avg);
         ratedGame = (TextView) findViewById(R.id.rated);
 
@@ -190,6 +192,7 @@ public class GameViewUser extends AppCompatActivity {
                     nameGame.setText(jsonobject.getString("name"));
                     descriptionGame.setText(jsonobject.getString("description"));
                     genre.setText(jsonobject.getString("genre"));
+                    platforms.setText(jsonobject.getString("platforms"));
                     byte[] decodedString = Base64.decode(jsonobject.getString("image"), Base64.DEFAULT);
                     imageGame.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
                     averageGame.setText(jsonobject.getString("avg"));

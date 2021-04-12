@@ -28,6 +28,7 @@ public class GameView extends AppCompatActivity {
     private TextView nameGame;
     private TextView descriptionGame;
     private ImageView imageGame;
+    private TextView platformsGames;
     private TextView genre;
     private Bundle bundle;
     private String id;
@@ -45,7 +46,6 @@ public class GameView extends AppCompatActivity {
         top_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // back button pressed
                 finish();
             }
         });
@@ -53,6 +53,7 @@ public class GameView extends AppCompatActivity {
         nameGame = (TextView) findViewById(R.id.name);
         descriptionGame = (TextView) findViewById(R.id.description);
         imageGame = (ImageView) findViewById(R.id.image);
+        platformsGames = (TextView) findViewById(R.id.platforms);
         genre = (TextView) findViewById(R.id.genre);
 
         bundle = getIntent().getExtras();
@@ -113,6 +114,7 @@ public class GameView extends AppCompatActivity {
                     nameGame.setText(jsonobject.getString("name"));
                     descriptionGame.setText(jsonobject.getString("description"));
                     genre.setText(jsonobject.getString("genre"));
+                    platformsGames.setText(jsonobject.getString("platforms"));
                     byte[] decodedString = Base64.decode(jsonobject.getString("image"), Base64.DEFAULT);
                     imageGame.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 

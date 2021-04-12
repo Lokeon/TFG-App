@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="220dp"
     android:layout_margin="5dp"
+    android:background="@drawable/border_rounded"
     android:orientation="vertical"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -31,9 +32,11 @@
                 android:id="@+id/nameGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textAlignment="center"
+                android:textColor="@color/header_line_color"
+                android:textSize="15sp" />
 
         </LinearLayout>
     </LinearLayout>
