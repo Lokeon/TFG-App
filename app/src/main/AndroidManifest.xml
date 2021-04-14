@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".game.Petition"></activity>
+        <activity android:name=".game.Petition" />
         <activity android:name=".list.ScoreList" />
         <activity
             android:name=".game.GameViewUser"
@@ -26,9 +26,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".game.GameUser"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".game.Game"
             android:screenOrientation="portrait" />
         <activity
             android:name=".user.ChangePassword"
@@ -46,7 +43,7 @@
             android:name=".user.UserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".game.Game"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

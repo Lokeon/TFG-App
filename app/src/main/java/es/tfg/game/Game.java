@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import es.tfg.MainActivity;
 import es.tfg.R;
 import es.tfg.adapter.CardGameAdapter;
 import es.tfg.model.CardViewGames;
@@ -73,10 +72,6 @@ public class Game extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void goHome(View view) {
-        startActivity(new Intent(Game.this, MainActivity.class));
     }
 
     public void goSignIn(View view) {

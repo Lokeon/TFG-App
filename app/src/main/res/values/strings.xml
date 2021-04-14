@@ -37,5 +37,7 @@
     <string name="game_petition">Game Petition</string>
     <string name="gamePetition">Game Name</string>
     <string name="petitionSend">Petition Sent!!</string>
+    <string name="most_game_voted">Most Voted Game</string>
+    <string name="most_game_avg">Best Average Game</string>
 </resources>
 

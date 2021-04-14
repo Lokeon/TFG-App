@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ import java.util.Scanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
 import es.tfg.game.GameUser;
+import es.tfg.game.GameViewUser;
 import es.tfg.game.Petition;
 import es.tfg.list.ScoreList;
 import es.tfg.registration.SignIn;
@@ -100,6 +103,7 @@ public class UserActivity extends AppCompatActivity {
 
 
         new GetUsername().execute(new UserInfo(token, id));
+        new GetBestGames().execute(new UserInfo(token, id));
     }
 
     public void goHome(View view) {
@@ -185,6 +189,121 @@ public class UserActivity extends AppCompatActivity {
                     userText.setText(jsonobject.getString("username"));
                     byte[] decodedString = Base64.decode(jsonobject.getString("avatar"), Base64.DEFAULT);
                     circleImageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class GetBestGames extends AsyncTask<UserInfo, Void, String> {
+        private View mostVoted;
+        private View mostAvg;
+        private ImageView mostVotedImg;
+        private TextView mostVotedTitle;
+        private TextView mostVotedName;
+        private ImageView mostAvgImg;
+        private TextView mostAvgTitle;
+        private TextView mostAvgName;
+        private ProgressBar progressBar;
+        private String voted;
+        private String voted_name;
+        private String avg;
+        private String avg_name;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            mostVoted = (View) findViewById(R.id.mostVoted);
+            mostVotedImg = (ImageView) mostVoted.findViewById(R.id.imageGame);
+            mostVotedName = (TextView) mostVoted.findViewById(R.id.nameGame);
+            mostVotedTitle = (TextView) mostVoted.findViewById(R.id.Txttitle);
+            mostVoted.setVisibility(View.INVISIBLE);
+
+            mostAvg = (View) findViewById(R.id.mostAvg);
+            mostAvgImg = (ImageView) mostAvg.findViewById(R.id.imageGame);
+            mostAvgName = (TextView) mostAvg.findViewById(R.id.nameGame);
+            mostAvgTitle = (TextView) mostAvg.findViewById(R.id.Txttitle);
+            mostAvg.setVisibility(View.INVISIBLE);
+
+            progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(UserInfo... strings) {
+            String text;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                URL url = new URL(getResources().getString(R.string.ip_bestGames));
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("auth-token", strings[0].token);
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                text = new Scanner(inputStream).useDelimiter("\\A").next();
+
+            } catch (Exception e) {
+                return e.toString();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+
+            if (results != null) {
+                try {
+                    JSONObject jsonobject = new JSONObject(results);
+
+                    progressBar.setVisibility(View.GONE);
+
+                    mostVoted.setVisibility(View.VISIBLE);
+                    mostVotedName.setText(jsonobject.getString("mostVoted"));
+                    voted_name = jsonobject.getString("mostVoted");
+                    voted = jsonobject.getString("idMostVoted");
+                    byte[] decodedString = Base64.decode(jsonobject.getString("mostVotedImg"), Base64.DEFAULT);
+                    mostVotedImg.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+                    mostVotedTitle.setText(R.string.most_game_voted);
+
+                    mostAvg.setVisibility(View.VISIBLE);
+                    mostAvgName.setText(jsonobject.getString("mostAvg"));
+                    avg_name = jsonobject.getString("mostAvg");
+                    avg = jsonobject.getString("idMostAvg");
+                    byte[] decodedString2 = Base64.decode(jsonobject.getString("mostAvgImg"), Base64.DEFAULT);
+                    mostAvgImg.setImageBitmap(BitmapFactory.decodeByteArray(decodedString2, 0, decodedString2.length));
+                    mostAvgTitle.setText(R.string.most_game_avg);
+
+                    mostVoted.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bundleSend.putString("name_game", voted_name);
+                            bundleSend.putString("id_game", voted);
+                            startActivity(new Intent(UserActivity.this, GameViewUser.class).putExtras(bundleSend));
+                        }
+                    });
+
+                    mostAvg.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bundleSend.putString("name_game", avg_name);
+                            bundleSend.putString("id_game", avg);
+                            startActivity(new Intent(UserActivity.this, GameViewUser.class).putExtras(bundleSend));
+                        }
+                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();

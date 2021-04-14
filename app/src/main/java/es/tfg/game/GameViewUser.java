@@ -87,6 +87,7 @@ public class GameViewUser extends AppCompatActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (fromUser) {
                     new PostRate().execute(new RateInfo(token, id_user, id_game, name_game, rating));
+                    new GetScores().execute(new GameInfo(token, id_game));
                 }
             }
         });
@@ -343,23 +344,70 @@ public class GameViewUser extends AppCompatActivity {
 
             if (Integer.parseInt(results) == 201) {
                 Toast.makeText(GameViewUser.this, "Score Updated!", Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                overridePendingTransition(0, 0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(intent);
             } else {
                 Toast.makeText(GameViewUser.this, "Score Submited!", Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                overridePendingTransition(0, 0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(intent);
             }
         }
     }
+
+    class GetScores extends AsyncTask<GameInfo, Void, String> {
+        private TextView averageGame;
+        private TextView ratedGame;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            averageGame = (TextView) findViewById(R.id.avg);
+            ratedGame = (TextView) findViewById(R.id.rated);
+        }
+
+        @Override
+        protected String doInBackground(GameInfo... strings) {
+            String text;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                URL url = new URL(getResources().getString(R.string.ip_uogames) + "/" + strings[0].id);
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("auth-token", strings[0].token);
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                text = new Scanner(inputStream).useDelimiter("\\A").next();
+
+            } catch (Exception e) {
+                return e.toString();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+
+            if (results != null) {
+                try {
+                    JSONObject jsonobject = new JSONObject(results);
+
+                    averageGame.setText(jsonobject.getString("avg"));
+                    ratedGame.setText(jsonobject.getString("rates"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
 }
 

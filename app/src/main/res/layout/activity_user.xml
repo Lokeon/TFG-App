@@ -14,6 +14,32 @@
         <include
             android:id="@+id/top_toolbar_user"
             layout="@layout/toolbar_top_user" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/header_line_color"
+                android:paddingTop="?actionBarSize"
+                android:paddingBottom="?actionBarSize" />
+
+            <include
+                android:id="@+id/mostVoted"
+                layout="@layout/cardview_game_home" />
+
+            <include
+                android:id="@+id/mostAvg"
+                layout="@layout/cardview_game_home" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

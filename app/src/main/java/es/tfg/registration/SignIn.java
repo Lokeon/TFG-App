@@ -27,7 +27,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import es.tfg.MainActivity;
 import es.tfg.R;
 import es.tfg.game.Game;
 import es.tfg.user.UserActivity;
@@ -96,10 +95,6 @@ public class SignIn extends AppCompatActivity {
 
     public void goSignUp(View view) {
         startActivity(new Intent(SignIn.this, SignUp.class));
-    }
-
-    public void goHome(View view) {
-        startActivity(new Intent(SignIn.this, MainActivity.class));
     }
 
     public void goSignIn(View view) {
