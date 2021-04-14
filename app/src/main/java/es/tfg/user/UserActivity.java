@@ -2,6 +2,8 @@ package es.tfg.user;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +84,12 @@ public class UserActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        NotificationChannel channel = new NotificationChannel("notif_channel", "notif_channel", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("game");
 
         Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar_user);
         setSupportActionBar(bottom_toolbar);
