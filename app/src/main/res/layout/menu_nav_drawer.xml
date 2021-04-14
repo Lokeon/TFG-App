@@ -8,10 +8,10 @@
         android:id="@+id/avatar_img_user"
         android:layout_width="129dp"
         android:layout_height="120dp"
-        android:layout_margin="16dp"
         android:layout_gravity="center_horizontal"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/whiteSmoke" />
+        android:layout_margin="16dp"
+        app:civ_border_color="@color/whiteSmoke"
+        app:civ_border_width="2dp" />
 
     <TextView
         android:id="@+id/top_toolbar_username"
@@ -57,6 +57,31 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:clickable="true"
+        android:onClick="goPetition"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_add" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="48dp"
+            android:layout_weight="1"
+            android:text="@string/game_petition" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
         android:onClick="goLogout"
         android:orientation="horizontal">
 
@@ -73,8 +98,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="48dp"
             android:layout_weight="1"
-            android:text="Logout" />
-
+            android:text="@string/logout" />
 
     </LinearLayout>
 

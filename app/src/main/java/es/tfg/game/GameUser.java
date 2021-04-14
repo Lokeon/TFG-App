@@ -2,7 +2,6 @@ package es.tfg.game;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -155,6 +154,10 @@ public class GameUser extends AppCompatActivity {
         startActivity(new Intent(GameUser.this, ScoreList.class).putExtras(bundleSend));
     }
 
+    public void goPetition(View view) {
+        startActivity(new Intent(GameUser.this, Petition.class).putExtras(bundleSend));
+    }
+
     public void openMenu(View view) {
         openDrawer(drawerLayout);
     }
@@ -229,7 +232,6 @@ public class GameUser extends AppCompatActivity {
     }
 
     class GetUsername extends AsyncTask<UserInfo, Void, String> {
-        private Dialog dialog;
 
         @Override
         protected String doInBackground(UserInfo... strings) {

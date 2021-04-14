@@ -4,7 +4,7 @@
     android:id="@+id/drawer_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".game.GameUser">
+    tools:context=".game.Petition">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,35 +15,36 @@
             android:id="@+id/top_toolbar_user"
             layout="@layout/toolbar_top_user" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scroll_game"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="40dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvGames"
+                <EditText
+                    android:id="@+id/TxtPetition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="?actionBarSize"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingBottom="?actionBarSize" />
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/gamePetition"
+                    android:inputType="text" />
 
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/BtnPetition"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:indeterminateTint="@color/header_line_color"
-                    android:indeterminateTintMode="src_atop"
-                    android:paddingBottom="?actionBarSize" />
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/whiteSmoke"
+                    android:enabled="false"
+                    android:text="@string/game_petition" />
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -33,5 +33,9 @@
     <string name="sort_ascending">Ascending</string>
     <string name="sort_descending">Descending</string>
     <string name="loading">Loading…</string>
+    <string name="logout">Logout</string>
+    <string name="game_petition">Game Petition</string>
+    <string name="gamePetition">Game Name</string>
+    <string name="petitionSend">Petition Sent!!</string>
 </resources>
 

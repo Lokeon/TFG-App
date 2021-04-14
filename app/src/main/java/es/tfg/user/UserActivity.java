@@ -27,6 +27,7 @@ import java.util.Scanner;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.tfg.R;
 import es.tfg.game.GameUser;
+import es.tfg.game.Petition;
 import es.tfg.list.ScoreList;
 import es.tfg.registration.SignIn;
 
@@ -115,6 +116,10 @@ public class UserActivity extends AppCompatActivity {
 
     public void goList(View view) {
         startActivity(new Intent(UserActivity.this, ScoreList.class).putExtras(bundleSend));
+    }
+
+    public void goPetition(View view) {
+        startActivity(new Intent(UserActivity.this, Petition.class).putExtras(bundleSend));
     }
 
     public void openMenu(View view) {

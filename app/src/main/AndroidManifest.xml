@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".game.Petition"></activity>
         <activity android:name=".list.ScoreList" />
         <activity
             android:name=".game.GameViewUser"
