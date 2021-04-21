@@ -1,9 +1,7 @@
-package es.tfg.user;
+package es.tfg.recommendation;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -20,8 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,11 +32,12 @@ import es.tfg.game.GameUser;
 import es.tfg.game.GameViewUser;
 import es.tfg.game.Petition;
 import es.tfg.list.ScoreList;
-import es.tfg.recommendation.Recommendation;
 import es.tfg.registration.SignIn;
+import es.tfg.user.Profile;
+import es.tfg.user.UserActivity;
 
 
-public class UserActivity extends AppCompatActivity {
+public class Recommendation extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private TextView userText;
@@ -84,13 +81,8 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_recommendation);
 
-        NotificationChannel channel = new NotificationChannel("notif_channel", "notif_channel", NotificationManager.IMPORTANCE_DEFAULT);
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(channel);
-
-        FirebaseMessaging.getInstance().subscribeToTopic("game");
 
         Toolbar bottom_toolbar = (Toolbar) findViewById(R.id.bottom_toolbar_user);
         setSupportActionBar(bottom_toolbar);
@@ -99,7 +91,7 @@ public class UserActivity extends AppCompatActivity {
         bottom_toolbar.setSubtitle("");
 
         TextView textView = (TextView) findViewById(R.id.title_toolbar_user);
-        textView.setText(R.string.home);
+        textView.setText(R.string.recommendation);
         userText = (TextView) findViewById(R.id.top_toolbar_username);
         circleImageView = (CircleImageView) findViewById(R.id.avatar_img_user);
 
@@ -114,31 +106,31 @@ public class UserActivity extends AppCompatActivity {
 
 
         new GetUsername().execute(new UserInfo(token, id));
-        new GetBestGames().execute(new UserInfo(token, id));
+        new GetRecommendation().execute(new UserInfo(token, id));
     }
 
     public void goHome(View view) {
-        startActivity(new Intent(UserActivity.this, UserActivity.class).putExtras(bundleSend));
+        startActivity(new Intent(Recommendation.this, UserActivity.class).putExtras(bundleSend));
     }
 
     public void goProfile(View view) {
-        startActivity(new Intent(UserActivity.this, Profile.class).putExtras(bundleSend));
+        startActivity(new Intent(Recommendation.this, Profile.class).putExtras(bundleSend));
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(UserActivity.this, GameUser.class).putExtras(bundleSend));
+        startActivity(new Intent(Recommendation.this, GameUser.class).putExtras(bundleSend));
     }
 
     public void goList(View view) {
-        startActivity(new Intent(UserActivity.this, ScoreList.class).putExtras(bundleSend));
+        startActivity(new Intent(Recommendation.this, ScoreList.class).putExtras(bundleSend));
     }
 
     public void goRecommendation(View view) {
-        startActivity(new Intent(UserActivity.this, Recommendation.class).putExtras(bundleSend));
+        startActivity(new Intent(Recommendation.this, Recommendation.class).putExtras(bundleSend));
     }
 
     public void goPetition(View view) {
-        startActivity(new Intent(UserActivity.this, Petition.class).putExtras(bundleSend));
+        startActivity(new Intent(Recommendation.this, Petition.class).putExtras(bundleSend));
     }
 
     public void openMenu(View view) {
@@ -212,36 +204,43 @@ public class UserActivity extends AppCompatActivity {
         }
     }
 
-    class GetBestGames extends AsyncTask<UserInfo, Void, String> {
-        private View mostVoted;
-        private View mostAvg;
-        private ImageView mostVotedImg;
-        private TextView mostVotedTitle;
-        private TextView mostVotedName;
-        private ImageView mostAvgImg;
-        private TextView mostAvgTitle;
-        private TextView mostAvgName;
+    class GetRecommendation extends AsyncTask<UserInfo, Void, String> {
+        private View game1;
+        private View game2;
+        private View game3;
+        private ImageView image1;
+        private TextView name1;
+        private ImageView image2;
+        private TextView name2;
+        private ImageView image3;
+        private TextView name3;
         private ProgressBar progressBar;
-        private String voted;
-        private String voted_name;
-        private String avg;
-        private String avg_name;
+        private String id1;
+        private String gname1;
+        private String id2;
+        private String gname2;
+        private String id3;
+        private String gname3;
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            mostVoted = (View) findViewById(R.id.mostVoted);
-            mostVotedImg = (ImageView) mostVoted.findViewById(R.id.imageGame);
-            mostVotedName = (TextView) mostVoted.findViewById(R.id.nameGame);
-            mostVotedTitle = (TextView) mostVoted.findViewById(R.id.Txttitle);
-            mostVoted.setVisibility(View.INVISIBLE);
+            game1 = (View) findViewById(R.id.game1);
+            image1 = (ImageView) game1.findViewById(R.id.imageGame);
+            name1 = (TextView) game1.findViewById(R.id.nameGame);
+            game1.setVisibility(View.INVISIBLE);
 
-            mostAvg = (View) findViewById(R.id.mostAvg);
-            mostAvgImg = (ImageView) mostAvg.findViewById(R.id.imageGame);
-            mostAvgName = (TextView) mostAvg.findViewById(R.id.nameGame);
-            mostAvgTitle = (TextView) mostAvg.findViewById(R.id.Txttitle);
-            mostAvg.setVisibility(View.INVISIBLE);
+            game2 = (View) findViewById(R.id.game2);
+            image2 = (ImageView) game2.findViewById(R.id.imageGame);
+            name2 = (TextView) game2.findViewById(R.id.nameGame);
+            game2.setVisibility(View.INVISIBLE);
+
+            game3 = (View) findViewById(R.id.game3);
+            image3 = (ImageView) game3.findViewById(R.id.imageGame);
+            name3 = (TextView) game3.findViewById(R.id.nameGame);
+            game3.setVisibility(View.INVISIBLE);
 
             progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
@@ -254,7 +253,7 @@ public class UserActivity extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
 
             try {
-                URL url = new URL(getResources().getString(R.string.ip_bestGames));
+                URL url = new URL(getResources().getString(R.string.ip_recommendation));
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(10000);
@@ -282,41 +281,57 @@ public class UserActivity extends AppCompatActivity {
 
             if (results != null) {
                 try {
+
                     JSONObject jsonobject = new JSONObject(results);
 
                     progressBar.setVisibility(View.GONE);
 
-                    mostVoted.setVisibility(View.VISIBLE);
-                    mostVotedName.setText(jsonobject.getString("mostVoted"));
-                    voted_name = jsonobject.getString("mostVoted");
-                    voted = jsonobject.getString("idMostVoted");
-                    byte[] decodedString = Base64.decode(jsonobject.getString("mostVotedImg"), Base64.DEFAULT);
-                    mostVotedImg.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-                    mostVotedTitle.setText(R.string.most_game_voted);
+                    game1.setVisibility(View.VISIBLE);
+                    name1.setText(jsonobject.getString("nameGame1"));
+                    gname1 = jsonobject.getString("nameGame1");
+                    id1 = jsonobject.getString("idGame1");
+                    byte[] decodedString = Base64.decode(jsonobject.getString("image1"), Base64.DEFAULT);
+                    image1.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
-                    mostAvg.setVisibility(View.VISIBLE);
-                    mostAvgName.setText(jsonobject.getString("mostAvg"));
-                    avg_name = jsonobject.getString("mostAvg");
-                    avg = jsonobject.getString("idMostAvg");
-                    byte[] decodedString2 = Base64.decode(jsonobject.getString("mostAvgImg"), Base64.DEFAULT);
-                    mostAvgImg.setImageBitmap(BitmapFactory.decodeByteArray(decodedString2, 0, decodedString2.length));
-                    mostAvgTitle.setText(R.string.most_game_avg);
+                    game2.setVisibility(View.VISIBLE);
+                    name2.setText(jsonobject.getString("nameGame2"));
+                    gname2 = jsonobject.getString("nameGame2");
+                    id2 = jsonobject.getString("idGame2");
+                    byte[] decodedString2 = Base64.decode(jsonobject.getString("image2"), Base64.DEFAULT);
+                    image2.setImageBitmap(BitmapFactory.decodeByteArray(decodedString2, 0, decodedString2.length));
 
-                    mostVoted.setOnClickListener(new View.OnClickListener() {
+
+                    game3.setVisibility(View.VISIBLE);
+                    name3.setText(jsonobject.getString("nameGame3"));
+                    gname3 = jsonobject.getString("nameGame3");
+                    id3 = jsonobject.getString("idGame3");
+                    byte[] decodedString3 = Base64.decode(jsonobject.getString("image3"), Base64.DEFAULT);
+                    image3.setImageBitmap(BitmapFactory.decodeByteArray(decodedString3, 0, decodedString3.length));
+
+                    image1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            bundleSend.putString("name_game", voted_name);
-                            bundleSend.putString("id_game", voted);
-                            startActivity(new Intent(UserActivity.this, GameViewUser.class).putExtras(bundleSend));
+                            bundleSend.putString("name_game", gname1);
+                            bundleSend.putString("id_game", id1);
+                            startActivity(new Intent(Recommendation.this, GameViewUser.class).putExtras(bundleSend));
                         }
                     });
 
-                    mostAvg.setOnClickListener(new View.OnClickListener() {
+                    image2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            bundleSend.putString("name_game", avg_name);
-                            bundleSend.putString("id_game", avg);
-                            startActivity(new Intent(UserActivity.this, GameViewUser.class).putExtras(bundleSend));
+                            bundleSend.putString("name_game", gname2);
+                            bundleSend.putString("id_game", id2);
+                            startActivity(new Intent(Recommendation.this, GameViewUser.class).putExtras(bundleSend));
+                        }
+                    });
+
+                    image3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bundleSend.putString("name_game", gname3);
+                            bundleSend.putString("id_game", id3);
+                            startActivity(new Intent(Recommendation.this, GameViewUser.class).putExtras(bundleSend));
                         }
                     });
 

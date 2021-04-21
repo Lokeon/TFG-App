@@ -16,7 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".game.Petition" />
+        <activity
+            android:name=".recommendation.Recommendation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.Petition"
+            android:screenOrientation="portrait" />
         <activity android:name=".list.ScoreList" />
         <activity
             android:name=".game.GameViewUser"
@@ -66,7 +71,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/header_line_color" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

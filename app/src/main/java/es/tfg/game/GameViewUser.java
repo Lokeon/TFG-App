@@ -29,6 +29,7 @@ import java.util.Scanner;
 
 import es.tfg.R;
 import es.tfg.list.ScoreList;
+import es.tfg.recommendation.Recommendation;
 import es.tfg.user.Profile;
 import es.tfg.user.UserActivity;
 
@@ -107,6 +108,10 @@ public class GameViewUser extends AppCompatActivity {
 
     public void goList(View view) {
         startActivity(new Intent(GameViewUser.this, ScoreList.class).putExtras(bundleSend));
+    }
+
+    public void goRecommendation(View view) {
+        startActivity(new Intent(GameViewUser.this, Recommendation.class).putExtras(bundleSend));
     }
 
     private static class GameInfo {

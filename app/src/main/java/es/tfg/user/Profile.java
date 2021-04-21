@@ -47,6 +47,7 @@ import es.tfg.R;
 import es.tfg.game.GameUser;
 import es.tfg.game.Petition;
 import es.tfg.list.ScoreList;
+import es.tfg.recommendation.Recommendation;
 import es.tfg.registration.SignIn;
 
 public class Profile extends AppCompatActivity {
@@ -175,6 +176,10 @@ public class Profile extends AppCompatActivity {
 
     public void goList(View view) {
         startActivity(new Intent(Profile.this, ScoreList.class).putExtras(bundleSend));
+    }
+
+    public void goRecommendation(View view) {
+        startActivity(new Intent(Profile.this, Recommendation.class).putExtras(bundleSend));
     }
 
     public void goPetition(View view) {

@@ -35,6 +35,7 @@ import es.tfg.R;
 import es.tfg.adapter.CardGameAdapter;
 import es.tfg.list.ScoreList;
 import es.tfg.model.CardViewGames;
+import es.tfg.recommendation.Recommendation;
 import es.tfg.registration.SignIn;
 import es.tfg.user.Profile;
 import es.tfg.user.UserActivity;
@@ -152,6 +153,10 @@ public class GameUser extends AppCompatActivity {
 
     public void goList(View view) {
         startActivity(new Intent(GameUser.this, ScoreList.class).putExtras(bundleSend));
+    }
+
+    public void goRecommendation(View view) {
+        startActivity(new Intent(GameUser.this, Recommendation.class).putExtras(bundleSend));
     }
 
     public void goPetition(View view) {

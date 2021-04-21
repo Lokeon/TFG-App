@@ -40,6 +40,7 @@ import es.tfg.game.Petition;
 import es.tfg.listener.TableViewListener;
 import es.tfg.model.Cell;
 import es.tfg.model.TableViewModel;
+import es.tfg.recommendation.Recommendation;
 import es.tfg.registration.SignIn;
 import es.tfg.user.Profile;
 import es.tfg.user.UserActivity;
@@ -139,6 +140,10 @@ public class ScoreList extends AppCompatActivity {
 
     public void goPetition(View view) {
         startActivity(new Intent(ScoreList.this, Petition.class).putExtras(bundleSend));
+    }
+
+    public void goRecommendation(View view) {
+        startActivity(new Intent(ScoreList.this, Recommendation.class).putExtras(bundleSend));
     }
 
     public String formatDate(String date) {

@@ -51,7 +51,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:background="@drawable/ic_recommendation"
-            android:backgroundTint="@color/whiteSmoke" />
+            android:backgroundTint="@color/whiteSmoke"
+            android:onClick="goRecommendation" />
 
 
     </RelativeLayout>
