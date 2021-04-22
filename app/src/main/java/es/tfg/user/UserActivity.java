@@ -118,27 +118,32 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void goHome(View view) {
-        startActivity(new Intent(UserActivity.this, UserActivity.class).putExtras(bundleSend));
+        startActivity(new Intent(UserActivity.this, UserActivity.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goProfile(View view) {
-        startActivity(new Intent(UserActivity.this, Profile.class).putExtras(bundleSend));
+        startActivity(new Intent(UserActivity.this, Profile.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(UserActivity.this, GameUser.class).putExtras(bundleSend));
+        startActivity(new Intent(UserActivity.this, GameUser.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goList(View view) {
-        startActivity(new Intent(UserActivity.this, ScoreList.class).putExtras(bundleSend));
+        startActivity(new Intent(UserActivity.this, ScoreList.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goRecommendation(View view) {
-        startActivity(new Intent(UserActivity.this, Recommendation.class).putExtras(bundleSend));
+        startActivity(new Intent(UserActivity.this, Recommendation.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goPetition(View view) {
-        startActivity(new Intent(UserActivity.this, Petition.class).putExtras(bundleSend));
+        startActivity(new Intent(UserActivity.this, Petition.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 
     public void openMenu(View view) {

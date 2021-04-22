@@ -94,15 +94,15 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void goSignUp(View view) {
-        startActivity(new Intent(SignIn.this, SignUp.class));
+        startActivity(new Intent(SignIn.this, SignUp.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goSignIn(View view) {
-        startActivity(new Intent(SignIn.this, SignIn.class));
+        startActivity(new Intent(SignIn.this, SignIn.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(SignIn.this, Game.class));
+        startActivity(new Intent(SignIn.this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
 
 

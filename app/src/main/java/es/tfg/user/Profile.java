@@ -159,31 +159,31 @@ public class Profile extends AppCompatActivity {
     }
 
     public void goHome(View view) {
-        startActivity(new Intent(Profile.this, UserActivity.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, UserActivity.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goProfile(View view) {
-        startActivity(new Intent(Profile.this, Profile.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, Profile.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(Profile.this, GameUser.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, GameUser.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goChangePassword(View view) {
-        startActivity(new Intent(Profile.this, ChangePassword.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, ChangePassword.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goList(View view) {
-        startActivity(new Intent(Profile.this, ScoreList.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, ScoreList.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goRecommendation(View view) {
-        startActivity(new Intent(Profile.this, Recommendation.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, Recommendation.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goPetition(View view) {
-        startActivity(new Intent(Profile.this, Petition.class).putExtras(bundleSend));
+        startActivity(new Intent(Profile.this, Petition.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     @Override

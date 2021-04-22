@@ -75,11 +75,11 @@ public class Game extends AppCompatActivity {
     }
 
     public void goSignIn(View view) {
-        startActivity(new Intent(Game.this, SignIn.class));
+        startActivity(new Intent(Game.this, SignIn.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(Game.this, Game.class));
+        startActivity(new Intent(Game.this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     private void getData(int page, int limit) {

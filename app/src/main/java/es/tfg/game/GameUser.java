@@ -140,27 +140,27 @@ public class GameUser extends AppCompatActivity {
     }
 
     public void goHome(View view) {
-        startActivity(new Intent(GameUser.this, UserActivity.class).putExtras(bundleSend));
+        startActivity(new Intent(GameUser.this, UserActivity.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goProfile(View view) {
-        startActivity(new Intent(GameUser.this, Profile.class).putExtras(bundleSend));
+        startActivity(new Intent(GameUser.this, Profile.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(GameUser.this, GameUser.class).putExtras(bundleSend));
+        startActivity(new Intent(GameUser.this, GameUser.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goList(View view) {
-        startActivity(new Intent(GameUser.this, ScoreList.class).putExtras(bundleSend));
+        startActivity(new Intent(GameUser.this, ScoreList.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goRecommendation(View view) {
-        startActivity(new Intent(GameUser.this, Recommendation.class).putExtras(bundleSend));
+        startActivity(new Intent(GameUser.this, Recommendation.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void goPetition(View view) {
-        startActivity(new Intent(GameUser.this, Petition.class).putExtras(bundleSend));
+        startActivity(new Intent(GameUser.this, Petition.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void openMenu(View view) {
