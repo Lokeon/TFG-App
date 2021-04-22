@@ -177,7 +177,7 @@ public class GameUser extends AppCompatActivity {
 
     private void getData(int page, int limit) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.17:3000/")
+                .baseUrl(getResources().getString(R.string.ip_heroku))
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
