@@ -40,5 +40,6 @@
     <string name="most_game_voted">Most Voted Game</string>
     <string name="most_game_avg">Best Average Game</string>
     <string name="recommendation">Recommendations</string>
+    <string name="recomen">You need at least rate 5 games.</string>
 </resources>
 
