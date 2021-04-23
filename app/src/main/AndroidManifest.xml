@@ -40,7 +40,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".registration.SignIn"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".registration.SignUp"
             android:screenOrientation="portrait" />
@@ -49,13 +55,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".game.Game"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.NotificationService"

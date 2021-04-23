@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,12 +37,14 @@ import es.tfg.game.GameUser;
 import es.tfg.game.GameViewUser;
 import es.tfg.game.Petition;
 import es.tfg.list.ScoreList;
+import es.tfg.listener.SavedSharedPreferences;
 import es.tfg.recommendation.Recommendation;
 import es.tfg.registration.SignIn;
 
 
 public class UserActivity extends AppCompatActivity {
 
+    private static SharedPreferences sp;
     private DrawerLayout drawerLayout;
     private TextView userText;
     private Bundle bundle;
@@ -61,13 +64,14 @@ public class UserActivity extends AppCompatActivity {
 
     }
 
-    public static void logout(final Activity activity) {
+    public void logout(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Logout");
         builder.setMessage("Are you sure you want to Logout ?");
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                SavedSharedPreferences.setLoggedIn(getApplicationContext(), false);
                 activity.startActivity(new Intent(activity, SignIn.class));
             }
         });

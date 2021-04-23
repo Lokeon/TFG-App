@@ -29,6 +29,7 @@ import java.net.URL;
 
 import es.tfg.R;
 import es.tfg.game.Game;
+import es.tfg.listener.SavedSharedPreferences;
 import es.tfg.user.UserActivity;
 
 public class SignIn extends AppCompatActivity {
@@ -37,6 +38,9 @@ public class SignIn extends AppCompatActivity {
     private EditText txtpassword;
     private TextView textSignup;
     private Button btn_accept;
+    private Bundle bundle = new Bundle();
+    private String token;
+    private String id;
     // Check that always fields are filled before send
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -74,7 +78,11 @@ public class SignIn extends AppCompatActivity {
         setSupportActionBar(top_toolbar);
         getSupportActionBar().setTitle(R.string.sign_in);
 
-
+        if (SavedSharedPreferences.getLoggedStatus(getApplicationContext())) {
+            bundle.putString("token", SavedSharedPreferences.getToken(getApplicationContext()));
+            bundle.putString("id", SavedSharedPreferences.getID(getApplicationContext()));
+            startActivity(new Intent(SignIn.this, UserActivity.class).putExtras(bundle));
+        }
         txtUser = (EditText) findViewById(R.id.TxtUser);
         txtpassword = (EditText) findViewById(R.id.TxtPassword);
         textSignup = (TextView) findViewById(R.id.TxtSignUp);
@@ -181,7 +189,7 @@ public class SignIn extends AppCompatActivity {
             String[] error = results.split(":");
             StringBuilder result = new StringBuilder();
             String[] info = new String[2];
-            Bundle bundle = new Bundle();
+
 
             //Take Id from server response
             try {
@@ -196,11 +204,14 @@ public class SignIn extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            SavedSharedPreferences.setTokenId(getApplicationContext(), info[0], info[1]);
+
             bundle.putString("token", info[0]);
             bundle.putString("id", info[1]);
 
             if (Integer.parseInt(error[0]) == 200) {
                 Toast.makeText(SignIn.this, error[1], Toast.LENGTH_SHORT).show();
+                SavedSharedPreferences.setLoggedIn(getApplicationContext(), true);
                 txtUser.setText("");
                 txtpassword.setText("");
                 startActivity(new Intent(SignIn.this, UserActivity.class).putExtras(bundle));
