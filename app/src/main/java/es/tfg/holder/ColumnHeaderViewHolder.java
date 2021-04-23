@@ -33,12 +33,12 @@ public class ColumnHeaderViewHolder extends AbstractSorterViewHolder {
         @Override
         public void onClick(View view) {
             if (getSortState() == SortState.ASCENDING) {
-                tableView.sortColumn(getAdapterPosition(), SortState.DESCENDING);
+                tableView.sortColumn(getBindingAdapterPosition(), SortState.DESCENDING);
             } else if (getSortState() == SortState.DESCENDING) {
-                tableView.sortColumn(getAdapterPosition(), SortState.ASCENDING);
+                tableView.sortColumn(getBindingAdapterPosition(), SortState.ASCENDING);
             } else {
                 // Default one
-                tableView.sortColumn(getAdapterPosition(), SortState.DESCENDING);
+                tableView.sortColumn(getBindingAdapterPosition(), SortState.UNSORTED);
             }
 
         }

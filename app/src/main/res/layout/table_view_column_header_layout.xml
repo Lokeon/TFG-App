@@ -33,15 +33,15 @@
 
             <ImageButton
                 android:id="@+id/column_header_sortButton"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_gravity="end|center"
                 android:background="@android:color/transparent"
                 android:paddingEnd="-5dp"
                 android:paddingStart="-5dp"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_down" />
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_baseline_sort" />
         </LinearLayout>
 
         <View

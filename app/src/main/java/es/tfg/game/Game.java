@@ -1,7 +1,9 @@
 package es.tfg.game;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -66,7 +68,6 @@ public class Game extends AppCompatActivity {
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (!v.canScrollVertically(1)) {
                     page++;
-                    progressBar.setVisibility(View.VISIBLE);
                     getData(page, limit);
                 }
             }
@@ -123,6 +124,22 @@ public class Game extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                        @SuppressLint("ClickableViewAccessibility")
+                        @Override
+                        public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                            if (!v.canScrollVertically(1)) {
+                                nestedScrollView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View v, MotionEvent event) {
+                                        return true;
+                                    }
+                                });
+                                rvGames.setNestedScrollingEnabled(true);
+                            }
+                        }
+                    });
                 }
             }
 

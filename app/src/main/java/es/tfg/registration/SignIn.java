@@ -110,7 +110,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void goGame(View view) {
-        startActivity(new Intent(SignIn.this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
+        startActivity(new Intent(SignIn.this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
 
