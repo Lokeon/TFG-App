@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
@@ -242,6 +243,7 @@ public class GameViewUser extends AppCompatActivity {
                     lldescription.setBackgroundResource(R.drawable.border);
                     nameGame.setText(jsonobject.getString("name"));
                     descriptionGame.setText(jsonobject.getString("description"));
+                    descriptionGame.setMovementMethod(new ScrollingMovementMethod());
                     genre.setText(jsonobject.getString("genre"));
                     platforms.setText(jsonobject.getString("platforms"));
                     byte[] decodedString = Base64.decode(jsonobject.getString("image"), Base64.DEFAULT);

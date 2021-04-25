@@ -142,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/roboto"
+                android:scrollbars="vertical"
                 android:textStyle="bold" />
 
             <ProgressBar
