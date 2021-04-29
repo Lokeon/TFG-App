@@ -148,16 +148,6 @@ public class Recommendation extends AppCompatActivity {
         logout(this);
     }
 
-    private static class UserInfo {
-        String id;
-        String token;
-
-        UserInfo(String token, String id) {
-            this.id = id;
-            this.token = token;
-        }
-    }
-
     protected String getErrorFromServer(InputStream error) throws IOException {
 
         StringBuilder builder = new StringBuilder();
@@ -169,6 +159,16 @@ public class Recommendation extends AppCompatActivity {
         }
 
         return builder.toString();
+    }
+
+    private static class UserInfo {
+        String id;
+        String token;
+
+        UserInfo(String token, String id) {
+            this.id = id;
+            this.token = token;
+        }
     }
 
     class GetUsername extends AsyncTask<UserInfo, Void, String> {

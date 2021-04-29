@@ -144,6 +144,10 @@ public class Profile extends AppCompatActivity {
         dateText = findViewById(R.id.TxtDate);
         cPassword = findViewById(R.id.TxtCPassword);
         drawerLayout = findViewById(R.id.drawer_profile);
+        emailText = findViewById(R.id.TxtEmail);
+        dateText = findViewById(R.id.TxtDate);
+        cPassword = findViewById(R.id.TxtCPassword);
+        drawerLayout = findViewById(R.id.drawer_profile);
         circleImageView = findViewById(R.id.avatar_img_user);
         button = findViewById(R.id.BtnAvatar);
         cPassword.setPaintFlags(cPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -171,7 +175,7 @@ public class Profile extends AppCompatActivity {
     }
 
     public void goChangePassword(View view) {
-        startActivity(new Intent(Profile.this, ChangePassword.class).putExtras(bundleSend).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        startActivity(new Intent(Profile.this, ChangePassword.class).putExtras(bundleSend));
     }
 
     public void goList(View view) {
